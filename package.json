@@ -20,7 +20,6 @@
   "scripts": {
     "dev-build": "webpack -d --watch",
     "dev-server": "nodemon server/server.js",
-    "start": "npm run dev-server && npm run dev-build",
     "build": "webpack"
   },
   "repository": {
