@@ -1,5 +1,5 @@
 module.exports = {
-  entry: __dirname + '/client/src/index.jsx',
+  entry: __dirname + '/frontend/src/painter.jsx',
   mode: 'Production',
   module: {
     rules: [
@@ -17,6 +17,6 @@ module.exports = {
   },
     output: {
     filename: 'bundle.js',
-    path: __dirname + '/client/dist'
+    path: __dirname + '/frontend/dist'
   }
 };
