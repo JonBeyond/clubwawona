@@ -1,0 +1,36 @@
+{
+  "name": "clubwawona",
+  "version": "1.0.0",
+  "description": "A website for private event organization",
+  "main": "./frontend/painter.jsx",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "express": "^4.16.4",
+    "mongoose": "^5.4.19"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.3.4",
+    "@babel/preset-env": "^7.3.4",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.5",
+    "nodemon": "^1.18.10",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.3.0"
+  },
+  "scripts": {
+    "dev-build": "webpack -d --watch",
+    "dev-server": "nodemon server/server.js",
+    "start": "npm run dev-server && npm run dev-build",
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JonBeyond/clubwawona.git"
+  },
+  "author": "Jonathan Mitzman",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JonBeyond/clubwawona/issues"
+  },
+  "homepage": "https://github.com/JonBeyond/clubwawona#readme"
+}
