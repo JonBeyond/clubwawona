@@ -1,0 +1,13 @@
+#MOS
+.DS_Store
+
+#Config
+config.js
+
+# NPM
+npm
+npm-debug.log
+node_modules/
+
+#Compilations
+dist/
