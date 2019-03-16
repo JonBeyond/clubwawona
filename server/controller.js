@@ -1,12 +1,18 @@
 const database = require('../config.js').database;
-const RSVP = require('./model.js');
+const RSVP = require('./model.js').RSVP;
+const Master = require('./model.js').Master;
 const mongoose = require('mongoose');
 
 const validateToken = (document, res) => {
-  //make sure token matches
-  //reject if not
-  //if OK, then save
-  save(document, res);
+  Master.findOne({email: document.email}, (err, response) => {
+    if (response && response.token === document.security) {
+      console.log('pass');
+      save(document, res);
+    } else {
+      console.log('fail');
+    }
+  });
+
 }
 
 const save = (document, res) => {
@@ -16,7 +22,7 @@ const save = (document, res) => {
       console.log('Error adding or updating RSVP');
     } else {
       mongoose.connection.close(()=>{
-        res.send('RSVP Added');
+        res.sendStatus(200);
       });
     }
   });
