@@ -1,13 +1,14 @@
+import styles from '../../../styles.css.js';
+
 const Navbar = (props) => {
   return (
     <div>
-      <ul className='navigationbar'>
-        <li className='RSVP' onClick={props.navigate}>RSVP</li>
-        <li className='About' onClick={props.navigate}>About</li>
-        <li className='Residents' onClick={props.navigate}>Residents</li>
-        <li className='Music' onClick={props.navigate}>Music</li>
-        <li className='Photos' onClick={props.navigate}>Photos</li>
-        <li className='Contact' onClick={props.navigate}>Contact</li>
+      <ul style={styles.navBar} className='navigationbar'>
+        <li style={styles.navBarElement} className='RSVP' onClick={props.navigate}>RSVP</li>
+        <li style={styles.navBarElement} className='About' onClick={props.navigate}>About</li>
+        <li style={styles.navBarElement} className='Residents' onClick={props.navigate}>Residents</li>
+        <li style={styles.navBarElement} className='Photos' onClick={props.navigate}>Photos</li>
+        <li style={styles.navBarElement} className='Contact' onClick={props.navigate}>Contact</li>
       </ul>
     </div>
   );
