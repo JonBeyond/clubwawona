@@ -25,7 +25,8 @@ const MasterListSchema = mongoose.Schema({
     type: String,
     unique: true
   },
-  token: String
+  token: String,
+  sent: Boolean
 });
 
 const masterVersion = 'MAY2019MASTER';
