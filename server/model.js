@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
-const RSVP = mongoose.Schema({
+//TODO: update the schema type for new events
+const RSVPSchema = mongoose.Schema({
   firstName: String,
   lastName: String,
   email: {
@@ -17,6 +18,6 @@ const RSVP = mongoose.Schema({
 
 //TODO: update the collection for new events
 const version = 'MAY2019RSVP';
-const RSVP = mongoose.model(version, RSVP);
+const RSVP = mongoose.model(version, RSVPSchema);
 
 module.exports = RSVP;
