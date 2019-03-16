@@ -1,7 +1,7 @@
 //this module is a bit more complex
 import styles from '../../../styles.css.js';
 
-const Form = () => {
+const Form = (props) => {
   return (
     <div style={styles.form} className='form'>
     Club Wawona
@@ -19,11 +19,10 @@ const Form = () => {
     Club Wawona will will be providing all supplies.  We are asking for a $10/person donation to help us pay for drinks and snacks.  If you enjoy Club Wawona, please contribute to keep these events financially maintainable!
     <br></br>
     <br></br>
-    <form className='form'>
+    <form className='form' onSubmit={props.submit}>
       <label htmlFor='firstName'>First Name:
         <input
         style={styles.input}
-        id='firstName'
         type='text'
         name='firstName'
         required>
@@ -32,7 +31,6 @@ const Form = () => {
       <label htmlFor='lastName'>Last Name:
         <input
         style={styles.input}
-        id='lastName'
         type='text'
         name='lastName'
         required></input>
@@ -40,15 +38,13 @@ const Form = () => {
       <label htmlFor='email'>Email:
         <input
         style={styles.input}
-        id='email'
         type='email'
-        name='name'
+        name='email'
         required></input>
       </label>
       <label htmlFor='security'>Enter your private key:
         <input
         style={styles.input}
-        id='security'
         type='text'
         name='security'
         required></input>
@@ -57,7 +53,7 @@ const Form = () => {
       <label htmlFor='guests'>Do you have a +1?
       <br></br>
       If you bring a guest, you are responsible for their good behavior!
-        <select style={styles.input}>
+        <select name='guests' style={styles.input}>
         <option value='0'>0</option>
         <option value='1'>1</option>
         </select>
@@ -67,7 +63,7 @@ const Form = () => {
       Please fill out this brief survey to help us procure supplies:
       <br></br>
       <label> Please choose your favorite 'party' beer:
-        <select style={styles.input}>
+        <select name='beer' style={styles.input}>
           <option value="Animal">I'm a party animal, I'll drink anything</option>
           <option value='none'>I do not drink beer</option>
           <option value='Hops'>IPAs</option>
@@ -78,7 +74,7 @@ const Form = () => {
       </label>
       <br></br>
       <label> Please choose your favorite liquor:
-        <select style={styles.input}>
+        <select name='liquor' style={styles.input}>
           <option value="Animal">No really, I a have a serious problem </option>
           <option value='none'>I do not drink liquor</option>
           <option value='Vodka'>Vodka</option>
@@ -89,7 +85,7 @@ const Form = () => {
       </label>
       <br></br>
       <label> Please choose your favorite wine:
-        <select style={styles.input}>
+        <select name='wine' style={styles.input}>
           <option value="Animal">Liquor is quicker</option>
           <option value='none'>I do not drink wine</option>
           <option value='Cab'>Cabernet Sauvingon</option>
@@ -102,7 +98,6 @@ const Form = () => {
       <label> If you do not drink alcohol, please let us know what we can provide for your enjoyment:
         <input
         style={styles.input}
-        id='other'
         type='text'
         name='other'></input>
       </label>
@@ -111,7 +106,6 @@ const Form = () => {
       <input
         style={styles.button}
         type='submit'
-        id='submit'
         value="GET LISTED!">
       </input>
     </form>
