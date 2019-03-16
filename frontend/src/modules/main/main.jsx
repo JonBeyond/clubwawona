@@ -24,7 +24,7 @@ class Main extends React.Component{
       this.setState({
         page: event.target.className
       }, () => {
-        console.log(`nNavstate update to ${this.state.page}`); //TODO: for dev only; remove
+        console.log(`Navstate update to ${this.state.page}`); //TODO: for dev only; remove
       })
     }
   }
@@ -33,13 +33,19 @@ class Main extends React.Component{
     event.preventDefault();
     this.setState({
       RSVP: {
-        firstName: event.target.firstName.value,
-        lastName: event.target.lastName.value,
-        email: event.target.email.value,
-        guests: event.target.guests.value
+        firstName: form.target.firstName.value,
+        lastName: form.target.lastName.value,
+        email: form.target.email.value,
+        guests: Number(form.target.guests.value),
+        security: form.target.security.value,
+        beer: form.target.beer.value,
+        liquor: form.target.liquor.value,
+        wine: form.target.wine.value,
+        other: form.target.other.value
       }
     }, () => {
-      this.saveRSVP();
+      console.log(this.state.RSVP);
+      //this.sendRSVP();
     })
   }
 
@@ -48,7 +54,7 @@ class Main extends React.Component{
       <div className='maincontainer'>
         <Navbar navigate={this.handleNav} />
         <div style={styles.main}>
-          <Content page={this.state.page} />
+          <Content page={this.state.page} submit={this.handleRSVP}/>
         </div>
       </div>
     );
