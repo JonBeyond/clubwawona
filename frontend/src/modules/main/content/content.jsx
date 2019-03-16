@@ -6,7 +6,7 @@ import RSVP from './form.jsx';
 
 const Content = (props) => {
   if (props.page === 'RSVP') {
-    return (<RSVP />);
+    return (<RSVP submit={props.submit}/>);
   } else if (props.page === 'About') {
     return (<About />);
   } else if (props.page === 'Residents') {
