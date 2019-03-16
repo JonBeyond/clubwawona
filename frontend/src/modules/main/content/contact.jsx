@@ -1,6 +1,6 @@
 const Contact = () => {
   return (
-    <div>Contact info</div>
+    <div>Send all questions to clubwawona@gmail.com</div>
   );
 }
 
