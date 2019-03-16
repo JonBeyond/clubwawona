@@ -10,6 +10,7 @@ const validateToken = (document, res) => {
       save(document, res);
     } else {
       console.log('fail');
+      res.sendStatus(400);
     }
   });
 
