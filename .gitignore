@@ -11,3 +11,6 @@ node_modules/
 
 #Compilations
 bundle.js
+
+#database files
+.csv
