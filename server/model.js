@@ -17,7 +17,18 @@ const RSVPSchema = mongoose.Schema({
 });
 
 //TODO: update the collection for new events
-const version = 'MAY2019RSVP';
-const RSVP = mongoose.model(version, RSVPSchema);
+const RSVPVersion = 'MAY2019RSVP';
+const RSVP = mongoose.model(RSVPVersion, RSVPSchema);
 
-module.exports = RSVP;
+const MasterListSchema = mongoose.Schema({
+  email: {
+    type: String,
+    unique: true
+  },
+  token: String
+});
+
+const masterVersion = 'MAY2019MASTER';
+const Master = mongoose.model(masterVersion, MasterListSchema);
+
+module.exports = { RSVP, Master };
