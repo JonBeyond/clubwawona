@@ -1,7 +1,7 @@
-// import styles from './styles.css.js'; //TODO:
-// import axios from 'axios';
 import Navbar from './navbar/navbar.jsx';
 import Content from './content/content.jsx';
+import styles from '../../styles.css.js';
+// import axios from 'axios';
 
 //This container controls the state of all content
 //TODO: think about the best way to handle the RSVP fourm handler
@@ -12,9 +12,11 @@ class Main extends React.Component{
   constructor() {
     super();
     this.state = {
-      page: 'RSVP' //can easily change default view here.
+      page: 'RSVP', //can easily change default view here.
+      RSVP: {}
     }
     this.handleNav = this.handleNav.bind(this);
+    this.handleRSVP = this.handleRSVP.bind(this);
   }
 
   handleNav(event) {
@@ -27,11 +29,27 @@ class Main extends React.Component{
     }
   }
 
+  handleRSVP(form) {
+    event.preventDefault();
+    this.setState({
+      RSVP: {
+        firstName: event.target.firstName.value,
+        lastName: event.target.lastName.value,
+        email: event.target.email.value,
+        guests: event.target.guests.value
+      }
+    }, () => {
+      this.saveRSVP();
+    })
+  }
+
   render() {
     return (
-      <div>Main Container
+      <div className='maincontainer'>
         <Navbar navigate={this.handleNav} />
-        <Content page={this.state.page} />
+        <div style={styles.main}>
+          <Content page={this.state.page} />
+        </div>
       </div>
     );
   }
