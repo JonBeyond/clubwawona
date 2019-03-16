@@ -16,7 +16,7 @@ const Form = (props) => {
     This is a private event  You must be on the list to register.
     <br></br>
     <br></br>
-    Club Wawona will will be providing all supplies.  We are asking for a $10/person donation to help us pay for drinks and snacks.  If you enjoy Club Wawona, please contribute to keep these events financially maintainable!
+    Club Wawona will be providing all supplies.  We are asking for a $10/person donation to help us pay for drinks and snacks.  If you enjoy Club Wawona, please contribute to keep these events financially maintainable!
     <br></br>
     <br></br>
     <form className='form' onSubmit={props.submit}>

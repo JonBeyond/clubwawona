@@ -1,14 +1,9 @@
 import Navbar from './navbar/navbar.jsx';
 import Content from './content/content.jsx';
 import styles from '../../styles.css.js';
-// import axios from 'axios';
+import axios from 'axios';
 
-//This container controls the state of all content
-//TODO: think about the best way to handle the RSVP fourm handler
-//TODO: especially consider about updating an RSVP
-//TODO: on the backend side, need a way to process the RSVP data
-//TODO: :D
-class Main extends React.Component{
+class Main extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -23,9 +18,7 @@ class Main extends React.Component{
     if (event.target.className !== this.state.page) { //dont generate a new render unless we need to.
       this.setState({
         page: event.target.className
-      }, () => {
-        console.log(`Navstate update to ${this.state.page}`); //TODO: for dev only; remove
-      })
+      });
     }
   }
 
@@ -44,8 +37,14 @@ class Main extends React.Component{
         other: form.target.other.value
       }
     }, () => {
-      console.log(this.state.RSVP);
-      //this.sendRSVP();
+      this.sendRSVP();
+    })
+  }
+
+  sendRSVP() {
+    axios.post('/api/RSVP', this.state.RSVP)
+    .catch((err) => {
+      console.error(`Error sending RSVP: ${err}`);
     })
   }
 
