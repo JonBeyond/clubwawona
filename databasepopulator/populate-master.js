@@ -7,11 +7,9 @@ const md5 = require('blueimp-md5');
 //Config files:
 const database = require('../config.js').database;
 const key = require('../config.js').tokenkey;
-//const emails = require('../config.js').emails;
 
-let emails = fs.readFileSync(path.join(__dirname, 'emails.csv'),"utf8").toString().split(',')
-// console.log(emails);
-// process.exit();
+let emails = [];
+emails = fs.readFileSync(path.join(__dirname, 'emails.csv'),"utf8").toString().split(',')
 
 const update = (doc) => {
   return new Promise((resolve, reject) => {
