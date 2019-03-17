@@ -1,4 +1,5 @@
 const fs = require('fs');
+const path = require('path');
 const mongoose = require('mongoose');
 const Master = require('../server/model.js').Master;
 const md5 = require('blueimp-md5');
@@ -6,7 +7,11 @@ const md5 = require('blueimp-md5');
 //Config files:
 const database = require('../config.js').database;
 const key = require('../config.js').tokenkey;
-const emails = require('../config.js').emails;
+//const emails = require('../config.js').emails;
+
+let emails = fs.readFileSync(path.join(__dirname, 'emails.csv'),"utf8").toString().split(',')
+// console.log(emails);
+// process.exit();
 
 const update = (doc) => {
   return new Promise((resolve, reject) => {
