@@ -11,8 +11,6 @@ const Content = (props) => {
     return (<About />);
   } else if (props.page === 'Residents') {
     return (<Residents />);
-  } else if (props.page === 'Photos') {
-    return (<Photos />);
   } else if (props.page === 'Contact') {
     return (<Contact />);
   } else {

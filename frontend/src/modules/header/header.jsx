@@ -9,10 +9,4 @@ const Header = () => {
   );
 }
 
-const randomHook = () => {
-  // const hooks = ['Welcome to the party', 'This is how we do'];
-  // return hooks[~~(Math.random()*hooks.length)];
-  return '';
-}
-
 export default Header;

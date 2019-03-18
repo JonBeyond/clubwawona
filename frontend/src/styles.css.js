@@ -23,7 +23,7 @@ export default {
     margin: '10px',
     border: '1px solid white',
     padding: '5px',
-    width: '75px'
+    width: '90px'
   },
 
   navDivider: {
@@ -45,16 +45,16 @@ export default {
 
   form: {
     border: '3px solid white',
-    width: '380px',
+    width: '450px',
     margin: 'auto',
     height: 'auto',
     verticalAlign: 'middle'
   },
 
   input: {
-    width: '95%',
-    padding: '12px 20px',
-    margin: '8px',
+    width: '90%',
+    padding: '10px 15px',
+    margin: '10px',
     display: 'inline-block',
     border: '1px solid white',
     boxSizing: 'border-box'
@@ -64,10 +64,20 @@ export default {
     backgroundColor: 'purple',
     color: 'white',
     fontWeight: '10',
-    padding: '14px 20px',
+    padding: '15px 20px',
     margin: '8px',
     border: 'none',
     cursor: 'pointer',
     width: '80%'
+  },
+
+  selector: {
+    height: '25px',
+    width: '60%'
+  },
+
+//********** Residents **********
+  bio: {
+    width: '600px'
   }
 }

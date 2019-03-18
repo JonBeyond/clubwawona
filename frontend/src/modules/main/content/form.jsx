@@ -4,7 +4,8 @@ import styles from '../../../styles.css.js';
 const Form = (props) => {
   return (
     <div style={styles.form} className='form'>
-    Club Wawona
+    <h1>Club Wawona</h1>
+    Spring 2019
     <br></br>
     Sat May 25th, 2019
     <br></br>
@@ -16,7 +17,7 @@ const Form = (props) => {
     This is a private event  You must be on the list to register.
     <br></br>
     <br></br>
-    Club Wawona will be providing all supplies.  We are asking for a $10/person donation to help us pay for drinks and snacks.  If you enjoy Club Wawona, please contribute to keep these events financially maintainable!
+    Club Wawona will be providing all supplies.  We ask for a $10/person donation to help us fund the drinks and snacks.  If you enjoy Club Wawona, please contribute to keep these events financially maintainable!
     <br></br>
     <br></br>
     <form className='form' onSubmit={props.submit}>
@@ -28,6 +29,7 @@ const Form = (props) => {
         required>
         </input>
       </label>
+      <br></br>
       <label htmlFor='lastName'>Last Name:
         <input
         style={styles.input}
@@ -35,6 +37,7 @@ const Form = (props) => {
         name='lastName'
         required></input>
       </label>
+      <br></br>
       <label htmlFor='email'>Email:
         <input
         style={styles.input}
@@ -42,7 +45,8 @@ const Form = (props) => {
         name='email'
         required></input>
       </label>
-      <label htmlFor='security'>Enter your private key:
+      <br></br>
+      <label htmlFor='security'>Private Registration Key:
         <input
         style={styles.input}
         type='text'
@@ -50,20 +54,20 @@ const Form = (props) => {
         required></input>
       </label>
       <br></br>
-      <label htmlFor='guests'>Do you have a +1?
+      <label htmlFor='guests'>Do you have a guest?
       <br></br>
-      If you bring a guest, you are responsible for their good behavior!
-        <select name='guests' style={styles.input}>
+      (If you bring a guest, you are responsible for their good behavior!)
+      <br></br>
+      <br></br>
+
+        <select name='guests' style={styles.selector}>
         <option value='0'>0</option>
         <option value='1'>1</option>
         </select>
       </label>
-      <br></br>
-      <br></br>
-      Please fill out this brief survey to help us procure supplies:
-      <br></br>
+      <p>Please fill out this brief survey to help us procure supplies:</p>
       <label> Please choose your favorite 'party' beer:
-        <select name='beer' style={styles.input}>
+        <select name='beer' style={styles.selector}>
           <option value="Animal">I'm a party animal, I'll drink anything</option>
           <option value='none'>I do not drink beer</option>
           <option value='Hops'>IPAs</option>
@@ -73,9 +77,10 @@ const Form = (props) => {
         </select>
       </label>
       <br></br>
+      <br></br>
       <label> Please choose your favorite liquor:
-        <select name='liquor' style={styles.input}>
-          <option value="Animal">No really, I a have a serious problem </option>
+        <select name='liquor' style={styles.selector}>
+          <option value="Animal">No really, I have a serious problem </option>
           <option value='none'>I do not drink liquor</option>
           <option value='Vodka'>Vodka</option>
           <option value="Tequila">Tequila</option>
@@ -84,8 +89,9 @@ const Form = (props) => {
         </select>
       </label>
       <br></br>
+      <br></br>
       <label> Please choose your favorite wine:
-        <select name='wine' style={styles.input}>
+        <select name='wine' style={styles.selector}>
           <option value="Animal">Liquor is quicker</option>
           <option value='none'>I do not drink wine</option>
           <option value='Cab'>Cabernet Sauvingon</option>
@@ -95,7 +101,8 @@ const Form = (props) => {
         </select>
       </label>
       <br></br>
-      <label> If you do not drink alcohol, please let us know what we can provide for your enjoyment:
+      <br></br>
+      <label> If you do not drink alcohol, please let us know what beverage we can provide for your enjoyment:
         <input
         style={styles.input}
         type='text'

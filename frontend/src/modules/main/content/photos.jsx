@@ -1,6 +1,8 @@
 const Photos = () => {
   return (
-    <div>Photo Module</div>
+    <div>
+
+    </div>
   )
 }
 
