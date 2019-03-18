@@ -43,6 +43,15 @@ class Main extends React.Component {
 
   sendRSVP() {
     axios.post('/api/RSVP', this.state.RSVP)
+    .then(res => {
+      if (res.data === 'badkey') {
+        alert(`The private key provided did not match the record on file.
+        \n
+        Please try again and contact Club Wawona if the issue persists.`);
+      } else {
+        alert('Your RSVP was accepted! See you soon!');
+      }
+    })
     .catch((err) => {
       console.error(`Error sending RSVP: ${err}`);
     })
@@ -51,7 +60,7 @@ class Main extends React.Component {
   render() {
     return (
       <div className='maincontainer'>
-        <Navbar navigate={this.handleNav} />
+        <Navbar navigate={this.handleNav} current={this.state.page}/>
         <div style={styles.main}>
           <Content page={this.state.page} submit={this.handleRSVP}/>
         </div>

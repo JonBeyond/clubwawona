@@ -26,6 +26,18 @@ export default {
     width: '90px'
   },
 
+  navBarSelected: {
+    boxSizing: 'border-box',
+    display: 'inline-block',
+    listStylePosition: 'outside',
+    verticalAlign: 'top',
+    margin: '10px',
+    border: '1px solid white',
+    padding: '5px',
+    width: '90px',
+    color: 'rgb(222, 35, 255)'
+  },
+
   navDivider: {
     margin: 'auto',
     width: '600px'

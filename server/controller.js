@@ -7,16 +7,16 @@ const validateToken = (document, res) => {
   Master.findOne({email: document.email}, (err, response) => {
     if (response && response.token === document.security) {
       console.log('pass');
-      save(document, res);
+      saveRSVP(document, res);
     } else {
       console.log('fail');
-      res.sendStatus(400);
+      res.send('badkey');
     }
   });
 
 }
 
-const save = (document, res) => {
+const saveRSVP = (document, res) => {
   RSVP.updateOne({email: document.email}, document, {upsert: true}, (err) => {
     if (err) {
       res.send(500);
@@ -41,6 +41,9 @@ module.exports = {
         res.sendStatus(500);
         mongoose.connection.close(); //just in case?? TODO: investigate.
       });
+    },
+    allResponses: () => {
+      //calculate all responses and save
     }
   }
 }

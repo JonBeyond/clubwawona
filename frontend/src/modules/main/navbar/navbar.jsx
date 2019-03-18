@@ -4,10 +4,26 @@ const Navbar = (props) => {
   return (
     <div>
       <ul style={styles.navBar} className='navigationbar'>
-        <li style={styles.navBarElement} className='RSVP' onClick={props.navigate}>RSVP</li>
-        <li style={styles.navBarElement} className='About' onClick={props.navigate}>About</li>
-        <li style={styles.navBarElement} className='Residents' onClick={props.navigate}>Residents</li>
-        <li style={styles.navBarElement} className='Contact' onClick={props.navigate}>Contact</li>
+        <li
+          style={('RSVP' === props.current) ? styles.navBarSelected : styles.navBarElement}
+          className='RSVP'
+          onClick={props.navigate}>
+          RSVP</li>
+        <li
+          style={('About' === props.current) ? styles.navBarSelected : styles.navBarElement}
+          className='About'
+          onClick={props.navigate}>
+          About</li>
+        <li
+          style={('Residents' === props.current) ? styles.navBarSelected : styles.navBarElement}
+          className='Residents'
+          onClick={props.navigate}>
+          Residents</li>
+        <li
+          style={('Contact' === props.current) ? styles.navBarSelected : styles.navBarElement}
+          className='Contact'
+          onClick={props.navigate}>
+          Contact</li>
       </ul>
       <div style={styles.navDivider}>
       <img src='https://s3-us-west-1.amazonaws.com/clubwawona/navbar.png'></img>
