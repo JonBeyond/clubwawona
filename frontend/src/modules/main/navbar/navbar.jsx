@@ -10,6 +10,10 @@ const Navbar = (props) => {
         <li style={styles.navBarElement} className='Photos' onClick={props.navigate}>Photos</li>
         <li style={styles.navBarElement} className='Contact' onClick={props.navigate}>Contact</li>
       </ul>
+      <div style={styles.navDivider}>
+      <img src='https://s3-us-west-1.amazonaws.com/clubwawona/navbar.png'></img>
+      </div>
+      <br></br>
     </div>
   );
 }

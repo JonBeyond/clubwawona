@@ -3,7 +3,7 @@ export default {
   //********** HEADER **********
 
   header: {
-    fontSize: '24px',
+    fontSize: '16px',
     verticalAlign: 'middle',
     textAlign: 'center'
   },
@@ -20,7 +20,15 @@ export default {
     display: 'inline-block',
     listStylePosition: 'outside',
     verticalAlign: 'top',
-    margin: '10px'
+    margin: '10px',
+    border: '1px solid white',
+    padding: '5px',
+    width: '75px'
+  },
+
+  navDivider: {
+    margin: 'auto',
+    width: '600px'
   },
 
   //********** CONTENT CONTAINER **********
