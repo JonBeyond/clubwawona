@@ -1,7 +1,7 @@
 import About from './about.jsx';
 import Photos from './photos.jsx';
-import Residents from './Residents.jsx';
-import Contact from './Contact.jsx';
+import Residents from './residents.jsx';
+import Contact from './contact.jsx';
 import RSVP from './form.jsx';
 
 const Content = (props) => {
