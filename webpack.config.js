@@ -1,6 +1,6 @@
 module.exports = {
   entry: __dirname + '/frontend/src/painter.jsx',
-  mode: 'Production',
+  mode: 'production',
   module: {
     rules: [
       {
