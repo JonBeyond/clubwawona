@@ -95,7 +95,7 @@ const Form = (props) => {
           <option value="Animal">Liquor is quicker</option>
           <option value='none'>I do not drink wine</option>
           <option value='Cab'>Cabernet Sauvingon</option>
-          <option value="Syrah">Syrah/Grenach/Mourvedre</option>
+          <option value="Syrah">Syrah/Grenach</option>
           <option value='Pinot'>Pinot Noir</option>
           <option value='White'>The non-red type of wine</option>
         </select>
