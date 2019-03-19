@@ -70,9 +70,14 @@ const dataBreakdown = (res, documents) => {
   };
 
   documents.forEach(response => {
+    let name = `${response['firstName']} ${response['lastName']}`;
     breakdown.emails.push(response['email']);
-    breakdown.registrations.push(`${response['firstName']} ${response['lastName']}`);
-    if (response['other'] !== '') breakdown.other.push(response['other']);
+    breakdown.registrations.push(name);
+    if (response['other'] !== '') {
+      let obj = {};
+      obj[name] = response['other'];
+      breakdown.other.push(obj);
+    }
     breakdown.beer[response['beer']]++;
     breakdown.liquor[response['liquor']]++;
     breakdown.wine[response['wine']]++;
