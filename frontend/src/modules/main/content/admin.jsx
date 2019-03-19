@@ -1,5 +1,6 @@
-import styles from '../../../styles.css.js';
 import AdminBar from './adminbar.jsx';
+import AdminPanel from './adminpanel.jsx';
+import Axios from 'axios';
 
 class Admin extends React.Component {
   constructor() {
@@ -44,7 +45,15 @@ class Admin extends React.Component {
   }
 
   componentDidMount() {
-    //get data
+    Axios.get('/api/report')
+      .then(res => {
+        this.setState({
+          report: res.data
+        })
+      })
+      .catch(err => {
+        console.log(err);
+      })
   }
 
   render() {
@@ -52,23 +61,19 @@ class Admin extends React.Component {
       <div className='Admin'>
         <AdminBar current={this.state.page} navigate={this.navigate} />
         <div className='memberPanel'>
+          <AdminPanel page={this.state.page} />
+        </div>
+      </div>
+    );
+  }
+}
+
+/*
           <button onClick={this.getReport} >Generate Report</button>
           <button onClick={this.getList} >Retrieve List</button>
           <button onClick={this.addMember} >Add member</button>
           <button onClick={this.removeMember}>Remove Member</button>
           <button onClick={this.sendEmail} >Emailz</button>
-        </div>
-        <div className='report'>
-        {}
-        </div>
-        <div className='list'>
-        list
-        </div>
-      </div>
-    );
-  }
-
-
-}
+*/
 
 export default Admin;
