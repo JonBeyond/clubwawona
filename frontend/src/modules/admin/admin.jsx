@@ -6,8 +6,8 @@ class Admin extends React.Component {
   constructor() {
     super();
     this.state = {
-      report: {},
-      list: [],
+      report: null,
+      list: null,
       page: 'Report'
     };
     this.navigate = this.navigate.bind(this);
@@ -69,11 +69,11 @@ class Admin extends React.Component {
 }
 
 /*
-          <button onClick={this.getReport} >Generate Report</button>
-          <button onClick={this.getList} >Retrieve List</button>
-          <button onClick={this.addMember} >Add member</button>
-          <button onClick={this.removeMember}>Remove Member</button>
-          <button onClick={this.sendEmail} >Emailz</button>
+  <button onClick={this.getReport} >Generate Report</button>
+  <button onClick={this.getList} >Retrieve List</button>
+  <button onClick={this.addMember} >Add member</button>
+  <button onClick={this.removeMember}>Remove Member</button>
+  <button onClick={this.sendEmail} >Emailz</button>
 */
 
 export default Admin;
