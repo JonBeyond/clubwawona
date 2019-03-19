@@ -12,11 +12,8 @@ server.use(bodyParser.json());
 //once deployed, bundle should be served from S3
 server.use('/',express.static(path.join(__dirname, '../frontend/dist')));
 
-// server.get('/', (req,res) => {
-//   res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
-// });
-
 server.post('/api/RSVP', (req, res) => {
+  //TODO: check for proper headers / key
   controller.process.RSVP(req.body, res);
 })
 

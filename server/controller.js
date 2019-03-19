@@ -6,10 +6,10 @@ const mongoose = require('mongoose');
 const validateToken = (document, res) => {
   Master.findOne({email: document.email}, (err, response) => {
     if (response && response.token === document.security) {
-      console.log('pass');
+      console.log('Successful registration processed');
       saveRSVP(document, res);
     } else {
-      console.log('fail');
+      console.log('Failed registration - bad key');
       res.send('badkey');
     }
   });
