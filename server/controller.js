@@ -29,7 +29,61 @@ const saveRSVP = (document, res) => {
   });
 }
 
-module.exports = {
+const processResponses = (res) => {
+  RSVP.find({}, (err, documents) => {
+    if (err) res.sendStatus(500);
+    dataBreakdown(res, documents);
+  });
+}
+
+const dataBreakdown = (res, documents) => {
+  let breakdown = {
+    registrations: [],
+    emails: [],
+    other: [],
+    primaryGuests: 0,
+    secondaryGuests: 0,
+    beer: {
+      "Animal": 0,
+      "none": 0,
+      "Hops": 0,
+      "Light": 0,
+      "Sours": 0,
+      "Heavy": 0
+    },
+    liquor: {
+      "Animal": 0,
+      "none": 0,
+      "Vodka": 0,
+      "Tequila": 0,
+      "Whiskey": 0,
+      "Gin": 0
+    },
+    wine:{
+      "Animal": 0,
+      "none": 0,
+      "Cab": 0,
+      "Syrah": 0,
+      "Pinot": 0,
+      "White": 0
+    }
+  };
+
+  documents.forEach(response => {
+    breakdown.emails.push(response['email']);
+    breakdown.registrations.push(`${response['firstName']} ${response['lastName']}`);
+    if (response['other'] !== '') breakdown.other.push(response['other']);
+    breakdown.beer[response['beer']]++;
+    breakdown.liquor[response['liquor']]++;
+    breakdown.wine[response['wine']]++;
+    breakdown.primaryGuests++;
+    breakdown.secondaryGuests += response['guests'];
+  });
+
+  res.send(breakdown);
+}
+
+module.exports = { //These are the controller entry points
   process: {
     RSVP: (document, res) => {
       mongoose.connect(database, { useNewUrlParser: true, useCreateIndex: true })
@@ -42,8 +96,15 @@ module.exports = {
         mongoose.connection.close(); //just in case?? TODO: investigate.
       });
     },
-    allResponses: () => {
-      //calculate all responses and save
+    allResponses: (res) => {
+      mongoose.connect(database, { useNewUrlParser: true, useCreateIndex: true })
+      .then(() => {
+        processResponses(res);
+      })
+      .catch(err => {
+        console.log(err);
+        res.send(500);
+      });
     }
   }
 }

@@ -10,17 +10,26 @@ server.use(bodyParser.json());
 
 //TODO: this is for dev only
 //once deployed, bundle should be served from S3
-server.use('/', express.static(path.join(__dirname, '../frontend/dist')));
+server.use('/',express.static(path.join(__dirname, '../frontend/dist')));
 
 // server.get('/', (req,res) => {
-//   TODO: production
-//   res.sendFile(path.join(__dirname, 'index.html'));
+//   res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
 // });
 
 server.post('/api/RSVP', (req, res) => {
   controller.process.RSVP(req.body, res);
 })
 
+server.get('/api/report', (req, res) => {
+  controller.process.allResponses(res);
+})
+
 server.listen(port, () => {
   console.log(`Server is listening on ${port}`);
 })
+
+//In case of unknown error, we don't want to shut down the server:
+process.on('uncaughtException', function (err) {
+  console.log(err);
+})
+
