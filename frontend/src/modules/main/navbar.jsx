@@ -1,4 +1,4 @@
-import styles from '../../../styles.css.js';
+import styles from '../../styles.css.js';
 
 const Navbar = (props) => {
   return (

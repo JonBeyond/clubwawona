@@ -2,7 +2,7 @@ import About from './about.jsx';
 import Residents from './residents.jsx';
 import Contact from './contact.jsx';
 import RSVP from './form.jsx';
-import Admin from './admin.jsx';
+import Admin from '../admin/admin.jsx';
 
 const Content = (props) => {
   if (props.page === 'RSVP') {

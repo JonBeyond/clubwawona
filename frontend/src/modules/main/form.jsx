@@ -1,5 +1,5 @@
 //this module is a bit more complex
-import styles from '../../../styles.css.js';
+import styles from '../../styles.css.js';
 
 const Form = (props) => {
   return (
