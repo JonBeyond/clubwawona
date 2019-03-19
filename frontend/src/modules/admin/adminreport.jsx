@@ -1,43 +1,30 @@
-
-const statistics = (object) => {
-  let guestCount = object.primaryGuests + object.secondaryGuests;
-  let wine = percentages(object.wine);
-  let beer = percentages(object.beer);
-  let liquor = percentages(object.liquor);
-
-}
-
-const percentages = (object) => {
-  let total = 0;
-  for (let type in object) {
-    total += object[type];
-  }
-  for(let type in object) {
-    object[type] = (Math.round(object[type]*100/total)).toString()+'%';
-  }
-  return object;
-}
+import TypeReport from './typereport.jsx';
 
 const AdminReport = (props) => {
-//TODO: make something pretty!
-//TODO: CSS!!
   let report = props.report;
-  statistics(report);
+
+  if (report === null) return (<div></div>);
 
   return (<div className='report'>
-    {`Replies: ${report.primaryGuests}`}
-    <br></br>
-    {`Guests: ${report.secondaryGuests}`}
-    <br></br>
-    {`List: ${JSON.stringify(report.registrations)}`}
-    <br></br>
-    {`Beer Pref: TBD`}
-    <br></br>
-    {`Wine Pref: TBD`}
-    <br></br>
-    {`Liquor Pref: TBD`}
-    <br></br>
-    {`Other things: ${JSON.stringify(report.other)}`}
+      <br></br>
+      <u>Summary</u>
+      <br></br>
+      {`Responses: ${report.primaryGuests}`}
+      <br></br>
+      {`Guests: ${report.secondaryGuests}`}
+      <br></br>
+      {`Total Attendance: ${report.secondaryGuests+report.primaryGuests}`}
+      <br></br>
+      <br></br>
+      Response Preferences:
+      <br></br>
+      <br></br>
+      <TypeReport data={report['beer']} key={'beer'} />
+      <br></br>
+      <TypeReport data={report['liquor']} key={'liquor'} />
+      <br></br>
+      <TypeReport data={report['wine']} key={'wine'} />
+      <br></br>
     </div>);
 }
 
