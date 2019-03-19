@@ -12,7 +12,8 @@ export default {
 
   navBar: {
     verticalAlign: 'middle',
-    textAlign: 'center'
+    textAlign: 'center',
+    padding: '0'
   },
 
   navBarElement: {
