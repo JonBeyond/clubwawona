@@ -61,7 +61,7 @@ class Admin extends React.Component {
       <div className='Admin'>
         <AdminBar current={this.state.page} navigate={this.navigate} />
         <div className='memberPanel'>
-          <AdminPanel page={this.state.page} />
+          <AdminPanel page={this.state.page} report={this.state.report} />
         </div>
       </div>
     );
