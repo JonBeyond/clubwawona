@@ -2,7 +2,6 @@ import TypeReport from './typereport.jsx';
 
 const AdminReport = (props) => {
   let report = props.report;
-
   if (report === null) return (<div></div>);
 
   return (<div className='report'>

@@ -1,6 +1,7 @@
 import AdminBar from './adminbar.jsx';
 import AdminPanel from './adminpanel.jsx';
 import Axios from 'axios';
+import key from '../../../../config.js';
 
 class Admin extends React.Component {
   constructor() {
@@ -45,7 +46,9 @@ class Admin extends React.Component {
   }
 
   componentDidMount() {
-    Axios.get('/api/report')
+    Axios.get('/api/report', {params: {
+      key: ''
+    }})
       .then(res => {
         this.setState({
           report: res.data
@@ -53,7 +56,18 @@ class Admin extends React.Component {
       })
       .catch(err => {
         console.log(err);
+      });
+
+      //TODO: add first and last name to the master list
+    Axios.get('api/members')
+      .then(res => {
+        this.setState({
+          list: res.data
+        });
       })
+      .catch(err => {
+        console.log(err);
+      });
   }
 
   render() {
