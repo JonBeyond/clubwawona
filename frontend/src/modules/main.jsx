@@ -45,9 +45,7 @@ class Main extends React.Component {
     axios.post('/api/RSVP', this.state.RSVP)
     .then(res => {
       if (res.data === 'badkey') {
-        alert(`The private key provided did not match the record on file.
-        \n
-        Please try again and contact Club Wawona if the issue persists.`);
+        alert('The private key provided did not match the record on file.\nPlease try again.\nContact clubwawona@gmail.com if the issue persists.');
       } else {
         alert('Your RSVP was accepted! See you soon!');
       }
