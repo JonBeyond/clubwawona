@@ -1,6 +1,6 @@
-import Navbar from './modules/main/navbar.jsx';
-import Content from './modules/main/content.jsx';
-import styles from './styles.css.js';
+import Navbar from './main/navbar.jsx';
+import Content from './main/content.jsx';
+import styles from '../styles.css.js';
 import axios from 'axios';
 
 class Main extends React.Component {

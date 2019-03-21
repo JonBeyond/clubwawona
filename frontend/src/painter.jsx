@@ -1,5 +1,5 @@
-import Header from './header.jsx';
-import Main from './main.jsx';
+import Header from './modules/header.jsx';
+import Main from './modules/main.jsx';
 //import Footer from 'SRC';
 
 ReactDOM.render(<Header />, document.getElementById('header'));

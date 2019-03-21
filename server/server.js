@@ -17,6 +17,10 @@ server.post('/api/RSVP', (req, res) => {
   controller.process.RSVP(req.body, res);
 })
 
+server.get('/api/members', (req, res) => {
+  controller.process.allMembers(res);
+})
+
 server.get('/api/report', (req, res) => {
   controller.process.allResponses(res);
 })

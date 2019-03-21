@@ -36,6 +36,17 @@ const processResponses = (res) => {
   });
 }
 
+const retrieveMembers = (res) => {
+  Master.find({}, (err, documents) => {
+    if (err) res.sendStatus(500);
+    let list = [];
+    documents.forEach((doc) => {
+      list.push([doc['email'],doc['token']]);
+    });
+    res.send(list);
+  })
+}
+
 const dataBreakdown = (res, documents) => {
   let breakdown = {
     registrations: [],
@@ -101,6 +112,7 @@ module.exports = { //These are the controller entry points
         mongoose.connection.close(); //just in case?? TODO: investigate.
       });
     },
+
     allResponses: (res) => {
       mongoose.connect(database, { useNewUrlParser: true, useCreateIndex: true })
       .then(() => {
@@ -109,6 +121,19 @@ module.exports = { //These are the controller entry points
       .catch(err => {
         console.log(err);
         res.send(500);
+        mongoose.connection.close(); //just in case?? TODO: investigate.
+      });
+    },
+
+    allMembers: (res) => {
+      mongoose.connect(database, { useNewUrlParser: true, useCreateIndex: true })
+      .then(() => {
+        retrieveMembers(res);
+      })
+      .catch(err => {
+        console.log(err);
+        res.send(500);
+        mongoose.connection.close(); //just in case?? TODO: investigate.
       });
     }
   }
