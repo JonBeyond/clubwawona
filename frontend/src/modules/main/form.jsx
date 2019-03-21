@@ -68,7 +68,6 @@ const Form = (props) => {
       <p>Please fill out this brief survey to help us procure supplies:</p>
       <label> Please choose your favorite 'party' beer:
         <select name='beer' style={styles.selector}>
-          <option value="Animal">I'm a party animal, I'll drink anything</option>
           <option value='none'>I do not drink beer</option>
           <option value='Hops'>IPAs</option>
           <option value="Light">Kolsh/Lager/Pilsners</option>
@@ -80,7 +79,6 @@ const Form = (props) => {
       <br></br>
       <label> Please choose your favorite liquor:
         <select name='liquor' style={styles.selector}>
-          <option value="Animal">No really, I have a serious problem </option>
           <option value='none'>I do not drink liquor</option>
           <option value='Vodka'>Vodka</option>
           <option value="Tequila">Tequila</option>
@@ -92,7 +90,6 @@ const Form = (props) => {
       <br></br>
       <label> Please choose your favorite wine:
         <select name='wine' style={styles.selector}>
-          <option value="Animal">Liquor is quicker</option>
           <option value='none'>I do not drink wine</option>
           <option value='Cab'>Cabernet Sauvingon</option>
           <option value="Syrah">Syrah/Grenach</option>
