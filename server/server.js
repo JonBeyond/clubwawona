@@ -20,9 +20,9 @@ server.get('/api/members', (req, res) => {
   controller.process.allMembers(res);
 })
 
-// server.post('/api/authenticate', req, res => {
-//   controller.process.Login(req, res);
-// })
+server.post('/api/authenticate', (req, res) => {
+  controller.process.login(req.body, res);
+})
 
 server.get('/api/report', (req, res) => {
   controller.process.allResponses(res);
@@ -33,6 +33,8 @@ server.listen(port, () => {
 })
 
 //In case of unknown error, we don't want to shut down the server:
+//--> this would be bad practice in a profesional server, but it is OK
+//for this private website.
 process.on('uncaughtException', function (err) {
   console.log(err);
 })

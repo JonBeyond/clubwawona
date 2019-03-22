@@ -5,6 +5,7 @@ const Master = require('./model.js').Master;
 const retrieveMembers = require('./controllers/retrievemembers.js').retrieveMembers;
 const processReport = require('./controllers/retrieversvp.js').processReport;
 const validateToken = require('./controllers/rsvp.js').validateToken;
+const login = require('./controllers/login.js').login;
 
 const options = { useNewUrlParser: true, useCreateIndex: true };
 
@@ -31,9 +32,9 @@ module.exports = { //These are the controller entry points
       .then(() => retrieveMembers(res))
       .catch(err => handleError(err));
     },
-    login: (req, res) => {
+    login: (credential, res) => {
       mongoose.connect(database, options)
-      .then(() => res.send('passed')) //TODO: UPDATE
+      .then(() => login(credential, res))
       .catch(err => handleError(err));
     }
   }

@@ -1,6 +1,6 @@
 const md5 = require('blueimp-md5');
-const key = require('../config.js').tokenkey;
-const lookup = require('../config.js').lookup;
+const key = require('../../config.js').tokenkey;
+const lookup = require('../../config.js').lookup;
 const Credentials = require('../model.js').Master;
 
 const login = (credential, res) => {
