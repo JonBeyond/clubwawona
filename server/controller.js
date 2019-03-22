@@ -9,10 +9,12 @@ const login = require('./controllers/login.js').login;
 
 const options = { useNewUrlParser: true, useCreateIndex: true };
 
-const handleError = (err) => {
+const handleError = (err, res) => {
   console.log('Error connecting to database');
-  res.sendStatus(500);
+  console.log(err);
+  res.status(500);
   mongoose.connection.close();
+  process.exit();
 }
 
 module.exports = { //These are the controller entry points
@@ -20,22 +22,22 @@ module.exports = { //These are the controller entry points
     RSVP: (document, res) => {
       mongoose.connect(database, options)
       .then(() => validateToken(document, res))
-      .catch((err) => handleError(err));
+      .catch((err) => handleError(err, res));
     },
     allResponses: (res) => {
       mongoose.connect(database, options)
       .then(() => processReport(res))
-      .catch(err => handleError(err));
+      .catch(err => handleError(err, res));
     },
     allMembers: (res) => {
       mongoose.connect(database, options)
       .then(() => retrieveMembers(res))
-      .catch(err => handleError(err));
+      .catch(err => handleError(err, res));
     },
     login: (credential, res) => {
       mongoose.connect(database, options)
       .then(() => login(credential, res))
-      .catch(err => handleError(err));
+      .catch(err => handleError(err, res));
     }
   }
 }
