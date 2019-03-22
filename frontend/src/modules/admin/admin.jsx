@@ -1,14 +1,14 @@
 import AdminBar from './adminbar.jsx';
 import AdminPanel from './adminpanel.jsx';
 import Axios from 'axios';
-import key from '../../../../config.js';
+// import key from '../../../../config.js';
 
 class Admin extends React.Component {
   constructor() {
     super();
     this.state = {
-      report: null,
-      list: null,
+      report: [],
+      list: [],
       page: 'Report'
     };
     this.navigate = this.navigate.bind(this);
@@ -61,6 +61,7 @@ class Admin extends React.Component {
       //TODO: add first and last name to the master list
     Axios.get('api/members')
       .then(res => {
+        console.log(res.data);
         this.setState({
           list: res.data
         });
@@ -75,7 +76,7 @@ class Admin extends React.Component {
       <div className='Admin'>
         <AdminBar current={this.state.page} navigate={this.navigate} />
         <div className='memberPanel'>
-          <AdminPanel page={this.state.page} report={this.state.report} />
+          <AdminPanel page={this.state.page} report={this.state.report} list={this.state.list} />
         </div>
       </div>
     );
