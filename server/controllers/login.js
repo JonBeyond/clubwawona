@@ -5,9 +5,9 @@ const Credentials = require('../model.js').Master;
 
 const login = (credential, res) => {
   let hashCredential = md5(credential,key);
-  Credentials.findOne({lookup: lookup}, (err, document) => {
+  Credentials.findOne({password: hashCredential}, (err, document) => {
     if (err) res.send(500);
-    else if (document && document.password === hashCredential) {
+    else if (document && document.password === hashCredential) { //just double check
       res.send('PASSED');
     } else {
       res.send('badkey');
