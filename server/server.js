@@ -20,6 +20,10 @@ server.get('/api/members', (req, res) => {
   controller.process.allMembers(res);
 })
 
+// server.post('/api/authenticate', req, res => {
+//   controller.process.Login(req, res);
+// })
+
 server.get('/api/report', (req, res) => {
   controller.process.allResponses(res);
 })
