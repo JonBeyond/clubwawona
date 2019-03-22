@@ -17,15 +17,20 @@ class Admin extends React.Component {
     this.adminLogin = this.adminLogin.bind(this);
   }
 
-  adminLogin(p) {
-    //login, if success, change state to report
-    console.log('hi');
-    console.log(p)
-    this.setState({
-      page: 'Report',
-      cleared: true
-    }, () => {
-      this.postLogin();
+  adminLogin() {
+    let credential = document.getElementById('credentials').value;
+    Axios.post('/api/authenticate', credential) //TODO: don't send plaintext passwords over HTTP.
+    .then(res => {
+      if (res.data === 'PASSED') {
+        this.postLogin();
+        this.setState({
+          page: 'Report',
+          cleared: true
+        });
+      } else alert('Bad password.');
+    })
+    .catch(err => {
+      console.log(`Error authenticating: ${err}`);
     });
   }
 

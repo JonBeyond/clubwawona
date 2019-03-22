@@ -1,3 +1,8 @@
+// TODO:
+// 1) populate all 3 databases with hardcoded test params
+// 2) drop all databases
+//
+
 const fs = require('fs');
 const path = require('path');
 const mongoose = require('mongoose');
