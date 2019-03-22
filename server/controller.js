@@ -6,42 +6,35 @@ const retrieveMembers = require('./controllers/retrievemembers.js').retrieveMemb
 const processReport = require('./controllers/retrieversvp.js').processReport;
 const validateToken = require('./controllers/rsvp.js').validateToken;
 
+const options = { useNewUrlParser: true, useCreateIndex: true };
+
+const handleError = (err) => {
+  console.log('Error connecting to database');
+  res.sendStatus(500);
+  mongoose.connection.close();
+}
+
 module.exports = { //These are the controller entry points
   process: {
     RSVP: (document, res) => {
-      mongoose.connect(database, { useNewUrlParser: true, useCreateIndex: true })
-      .then(() => {
-        validateToken(document, res);
-      })
-      .catch((err) => {
-        console.log('Error connecting to mlab');
-        res.sendStatus(500);
-        mongoose.connection.close(); //just in case?? TODO: investigate.
-      });
+      mongoose.connect(database, options)
+      .then(() => validateToken(document, res))
+      .catch((err) => handleError(err));
     },
-
     allResponses: (res) => {
-      mongoose.connect(database, { useNewUrlParser: true, useCreateIndex: true })
-      .then(() => {
-        processReport(res);
-      })
-      .catch(err => {
-        console.log(err);
-        res.send(500);
-        mongoose.connection.close(); //just in case?? TODO: investigate.
-      });
+      mongoose.connect(database, options)
+      .then(() => processReport(res))
+      .catch(err => handleError(err));
     },
-
     allMembers: (res) => {
-      mongoose.connect(database, { useNewUrlParser: true, useCreateIndex: true })
-      .then(() => {
-        retrieveMembers(res);
-      })
-      .catch(err => {
-        console.log(err);
-        res.send(500);
-        mongoose.connection.close(); //just in case?? TODO: investigate.
-      });
+      mongoose.connect(database, options)
+      .then(() => retrieveMembers(res))
+      .catch(err => handleError(err));
+    },
+    login: (req, res) => {
+      mongoose.connect(database, options)
+      .then(() => res.send('passed')) //TODO: UPDATE
+      .catch(err => handleError(err));
     }
   }
 }
