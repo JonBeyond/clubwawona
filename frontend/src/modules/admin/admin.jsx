@@ -1,5 +1,6 @@
 import AdminBar from './adminbar.jsx';
 import AdminPanel from './adminpanel.jsx';
+import Login from './login.jsx';
 import Axios from 'axios';
 // import key from '../../../../config.js';
 
@@ -9,24 +10,48 @@ class Admin extends React.Component {
     this.state = {
       report: [],
       list: [],
-      page: 'Report'
+      page: 'Login',
+      cleared: false
     };
     this.navigate = this.navigate.bind(this);
+    this.adminLogin = this.adminLogin.bind(this);
   }
 
-  getReport() {
-    console.log('get report incomplete');
-    //get report data
+  adminLogin(p) {
+    //login, if success, change state to report
+    console.log('hi');
+    console.log(p)
+    this.setState({
+      page: 'Report',
+      cleared: true
+    }, () => {
+      this.postLogin();
+    });
   }
 
-  addMember() {
-    console.log('add member incomplete');
-    //take in a an email (csv), create MD5, and store
-  }
+  postLogin() {
+    Axios.get('/api/report', {params: {
+      key: ''
+    }})
+    .then(res => {
+      this.setState({
+        report: res.data
+      })
+    })
+    .catch(err => {
+      console.log(err);
+    });
 
-  removeMember() {
-    console.log('add member incomplete');
-    //take in a an email (csv), create MD5, and store
+      //TODO: add first and last name to the master list
+    Axios.get('api/members')
+    .then(res => {
+      this.setState({
+        list: res.data
+      });
+    })
+    .catch(err => {
+      console.log(err);
+    });
   }
 
   navigate(event) {
@@ -45,33 +70,12 @@ class Admin extends React.Component {
     console.log('this feature is not yet available');
   }
 
-  componentDidMount() {
-    Axios.get('/api/report', {params: {
-      key: ''
-    }})
-      .then(res => {
-        this.setState({
-          report: res.data
-        })
-      })
-      .catch(err => {
-        console.log(err);
-      });
-
-      //TODO: add first and last name to the master list
-    Axios.get('api/members')
-      .then(res => {
-        console.log(res.data);
-        this.setState({
-          list: res.data
-        });
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }
-
   render() {
+    if (this.state.cleared === false) {
+      return (<div>
+        <Login login={this.adminLogin} />
+      </div>)
+    } else
     return (
       <div className='Admin'>
         <AdminBar current={this.state.page} navigate={this.navigate} />
@@ -82,13 +86,5 @@ class Admin extends React.Component {
     );
   }
 }
-
-/*
-  <button onClick={this.getReport} >Generate Report</button>
-  <button onClick={this.getList} >Retrieve List</button>
-  <button onClick={this.addMember} >Add member</button>
-  <button onClick={this.removeMember}>Remove Member</button>
-  <button onClick={this.sendEmail} >Emailz</button>
-*/
 
 export default Admin;
