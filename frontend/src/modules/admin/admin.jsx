@@ -19,7 +19,7 @@ class Admin extends React.Component {
 
   adminLogin() {
     let credential = document.getElementById('credentials').value;
-    Axios.post('/api/authenticate', credential) //TODO: don't send plaintext passwords over HTTP.
+    Axios.post('/api/authenticate', {credential: credential}) //TODO: don't send plaintext passwords over HTTP.
     .then(res => {
       if (res.data === 'PASSED') {
         this.postLogin();
