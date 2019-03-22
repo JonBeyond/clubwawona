@@ -8,17 +8,12 @@ const AdminBar = (props) => {
         style={('Members' === props.current) ? styles.navBarSelected : styles.navBarElement}
         className='Members'
         onClick={props.navigate}>
-        Members</li>
+        Member Management</li>
       <li
         style={('Report' === props.current) ? styles.navBarSelected : styles.navBarElement}
         className='Report'
         onClick={props.navigate}>
-        Report</li>
-      <li
-        style={('email' === props.current) ? styles.navBarSelected : styles.navBarElement}
-        className='email'
-        onClick={props.navigate}>
-        email</li>
+        RSVP Report</li>
       </ul>
     </div>
     );
