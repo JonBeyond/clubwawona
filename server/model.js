@@ -32,7 +32,7 @@ const masterVersion = 'MAY2019MASTER';
 const Master = mongoose.model(masterVersion, MemberList);
 
 const CredentialSchema = mongoose.Schema({
-  password: String, //md5 hash
+  password: String //md5 hash
 });
 const CredentialStorage = 'AUTHENTICATE';
 const Credentials = mongoose.model(CredentialStorage, CredentialSchema);
