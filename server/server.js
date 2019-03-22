@@ -2,7 +2,6 @@ const express = require('express');
 const server = express();
 const bodyParser = require("body-parser");
 const path = require('path');
-const mongoose = require('mongoose');
 const controller = require('./controller.js');
 const port = 3000;
 
