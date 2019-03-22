@@ -1,7 +1,15 @@
+//Config:
 const database = require('../config.js').database;
+const key = require('../config.js').tokenkey;
+
+//Schemas:
 const RSVP = require('./model.js').RSVP;
 const Master = require('./model.js').Master;
+
+//Libraries:
 const mongoose = require('mongoose');
+const md5 = require('blueimp-md5');
+
 
 const validateToken = (document, res) => {
   Master.findOne({email: document.email}, (err, response) => {
