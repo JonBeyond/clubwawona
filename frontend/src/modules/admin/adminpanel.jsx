@@ -5,7 +5,7 @@ const AdminPanel = (props) => {
   if (props.page === 'Report') {
       return (<AdminReport report={props.report} />);
   } else if (props.page === 'Members') {
-      return (<Members />);
+      return (<Members list={props.list} />);
   // } else if (props.page === 'Emails') {
   //     return (<AdminEmails />);
   } else {

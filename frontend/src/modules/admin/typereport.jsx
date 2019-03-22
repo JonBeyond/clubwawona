@@ -22,11 +22,6 @@ const percentages = (matrix) => {
 
 const TypeReport = (props) => {
   let dataCopy = Object.assign({},props.data), rows = [];
-
-  //remove unimport numbers for percentages:
-  delete dataCopy['none'];
-  delete dataCopy['Animal'];
-
   let length = Object.keys(dataCopy).length;
 
   for (let i = 0; i < length; i++) {
