@@ -1,10 +1,13 @@
 const RSVP = require('../model.js').RSVP;
+const checkCurrentAuthKey = require('./login.js').checkCurrentAuthKey;
 
-const processReport = (res) => {
-  RSVP.find({}, (err, documents) => {
-    if (err) res.sendStatus(500);
-    dataBreakdown(res, documents);
-  });
+const processReport = (req, res) => {
+  if (checkCurrentAuthKey(Number(req.url.substring(12)))) {
+    RSVP.find({}, (err, documents) => {
+      if (err) res.sendStatus(500);
+      dataBreakdown(res, documents);
+    });
+  } else res.send('bad or expired api key');
 }
 
 const dataBreakdown = (res, documents) => {
@@ -15,21 +18,21 @@ const dataBreakdown = (res, documents) => {
     primaryGuests: 0,
     secondaryGuests: 0,
     beer: {
-      "none": 0,
+      "None": 0,
       "Hops": 0,
       "Light": 0,
       "Sours": 0,
       "Heavy": 0
     },
     liquor: {
-      "none": 0,
+      "None": 0,
       "Vodka": 0,
       "Tequila": 0,
       "Whiskey": 0,
       "Gin": 0
     },
     wine:{
-      "none": 0,
+      "None": 0,
       "Cab": 0,
       "Syrah": 0,
       "Pinot": 0,
