@@ -46,11 +46,11 @@ const Form = (props) => {
         required></input>
       </label>
       <br></br>
-      <label htmlFor='security'>Private Registration Key:
+      <label htmlFor='token'>Private Registration Token:
         <input
         style={styles.input}
         type='text'
-        name='security'
+        name='token'
         required></input>
       </label>
       <br></br>
