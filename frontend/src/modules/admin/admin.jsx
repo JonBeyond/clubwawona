@@ -2,7 +2,6 @@ import AdminBar from './adminbar.jsx';
 import AdminPanel from './adminpanel.jsx';
 import Login from './login.jsx';
 import Axios from 'axios';
-// import key from '../../../../config.js';
 
 class Admin extends React.Component {
   constructor() {
@@ -20,7 +19,8 @@ class Admin extends React.Component {
 
   adminLogin() {
     let credential = document.getElementById('credentials').value;
-    Axios.post('/api/authenticate', {credential: credential}
+    let endpoint = document.getElementById('endpoint').value;
+    Axios.post(`/api/authenticate/${endpoint}`, {credential: credential})
     .then(res => {
       if (res.data.status === 'PASSED') {
         console.log(res.data);
@@ -49,7 +49,6 @@ class Admin extends React.Component {
       console.log(err);
     });
 
-      //TODO: add first and last name to the master list
     Axios.get(`api/members/${this.state.APIKey}`)
     .then(res => {
       this.setState({
@@ -70,10 +69,9 @@ class Admin extends React.Component {
   }
 
   sendEmail(email) {
-    console.log('this feature is not yet available');
-  }
-
-  sendEmails() {
+    //Process: check if email was sent
+    // -> if yes, then don't sent (it must be reset to make sure emails don't get sent more than once);
+    //
     console.log('this feature is not yet available');
   }
 
