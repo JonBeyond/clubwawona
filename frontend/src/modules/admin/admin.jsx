@@ -11,7 +11,8 @@ class Admin extends React.Component {
       report: [],
       list: [],
       page: 'Login',
-      cleared: false
+      cleared: false,
+      APIKey: null
     };
     this.navigate = this.navigate.bind(this);
     this.adminLogin = this.adminLogin.bind(this);
@@ -19,13 +20,16 @@ class Admin extends React.Component {
 
   adminLogin() {
     let credential = document.getElementById('credentials').value;
-    Axios.post('/api/authenticate', {credential: credential}) //TODO: don't send plaintext passwords over HTTP.
+    Axios.post('/api/authenticate', {credential: credential}
     .then(res => {
-      if (res.data === 'PASSED') {
-        this.postLogin();
+      if (res.data.status === 'PASSED') {
+        console.log(res.data);
         this.setState({
           page: 'Report',
-          cleared: true
+          cleared: true,
+          APIKey: res.data.APIKey
+        }, () => {
+          this.postLogin();
         });
       } else alert('Bad password.');
     })
@@ -35,9 +39,7 @@ class Admin extends React.Component {
   }
 
   postLogin() {
-    Axios.get('/api/report', {params: {
-      key: ''
-    }})
+    Axios.get(`/api/report/${this.state.APIKey}`)
     .then(res => {
       this.setState({
         report: res.data
@@ -48,7 +50,7 @@ class Admin extends React.Component {
     });
 
       //TODO: add first and last name to the master list
-    Axios.get('api/members')
+    Axios.get(`api/members/${this.state.APIKey}`)
     .then(res => {
       this.setState({
         list: res.data
