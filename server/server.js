@@ -11,11 +11,10 @@ server.use(bodyParser.json());
 //once deployed, bundle should be served from S3
 server.use('/',express.static(path.join(__dirname, '../frontend/dist')));
 
-//TODO: check for proper headers / key
 server.post('/api/RSVP', (req, res) => controller.process.RSVP(req.body, res));
-server.get('/api/members', (req, res) => controller.process.allMembers(res));
+server.get('/api/members/:auth', (req, res) => controller.process.allMembers(req, res));
+server.get('/api/report/:auth', (req, res) => controller.process.allResponses(req, res));
 server.post('/api/authenticate', (req, res) => controller.process.login(req.body.credential, res));
-server.get('/api/report', (req, res) => controller.process.allResponses(res))
 
 server.listen(port, () => console.log(`Server is listening on ${port}`))
 
