@@ -6,8 +6,6 @@ const AdminPanel = (props) => {
       return (<AdminReport report={props.report} />);
   } else if (props.page === 'Members') {
       return (<Members list={props.list} />);
-  // } else if (props.page === 'Emails') {
-  //     return (<AdminEmails />);
   } else {
       return (
       <div>CONTENT RENDER ERROR</div>
