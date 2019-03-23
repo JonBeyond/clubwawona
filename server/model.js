@@ -9,7 +9,6 @@ const RSVPSchema = mongoose.Schema({
     unique: true
   },
   guests: Number,
-  security: String,
   beer: String,
   liquor: String,
   wine: String,
@@ -22,7 +21,7 @@ const MemberList = mongoose.Schema({
     type: String,
     unique: true
   },
-  firsName: String,
+  firstName: String,
   lastName: String,
   token: String,
   tokenSent: Boolean
@@ -32,7 +31,8 @@ const masterVersion = 'MAY2019MASTER';
 const Master = mongoose.model(masterVersion, MemberList);
 
 const CredentialSchema = mongoose.Schema({
-  password: String //md5 hash
+  token: String,
+  type: String
 });
 const CredentialStorage = 'AUTHENTICATE';
 const Credentials = mongoose.model(CredentialStorage, CredentialSchema);
