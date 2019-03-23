@@ -15,7 +15,7 @@ const handleError = (err, res) => {
   process.exit();
 }
 
-module.exports = { //These are the controller entry points
+module.exports = {
   process: {
     RSVP: (document, res) => {
       mongoose.connect(database, options)
