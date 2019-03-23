@@ -8,6 +8,8 @@ const bcrypt = require('bcrypt');
 const Schema = require('../server/model.js');//can use: Master, RSVP, Credentials
 const config = require('../config.js');
 const saltRounds = 12; //13 for production
+const uuidv5 = require('uuid/v5'); //for user tokens
+
 
 //***********   GENERATE FAKE EMAILS   ***********//
 let emails = [];
@@ -86,7 +88,7 @@ const loadRSVPs = (documents) => {
 
 const createMasterList = () => {
   let upserts = emails.map(email => {
-    return generateHash(email);
+    return generateUUID(email);
   });
   Promise.all(upserts)
   .then((docs) => {
@@ -96,26 +98,20 @@ const createMasterList = () => {
   .catch((err) => handleError(err, 'Error updating master list'));
 }
 
-const generateHash = (email) => {
+const generateUUID = (email) => {
+  //note: this function can be safely de-promisified
   return new Promise((resolve, reject) => {
-    bcrypt.genSalt(saltRounds)
-    .then(salt => {
-      bcrypt.hash(config.credential, salt)
-      .then(hash => {
-        let document = {
-          email: email,
-          firstName: 'blank',
-          lastName: 'blanky',
-          token: hash,
-          tokenSent: false
-        }
-        update(document, Schema.Master, {email: document.email})
-        .then(document => resolve(document))
-        .catch(err => reject(err));
-      })
-      .catch(err => reject(err));
-    });
-  })
+    let document = {
+      email: email,
+      firstName: 'blank',
+      lastName: 'blanky',
+      token: uuidv5(email, config.eventIdentifier),
+      tokenSent: false
+    }
+    update(document, Schema.Master, {email: document.email})
+    .then(document => resolve(document))
+    .catch(err => reject(err));
+  });
 }
 
 const deleteExistingCollections = () => {
