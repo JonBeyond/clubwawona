@@ -1,7 +1,5 @@
 const database = require('../config.js').database;
 const mongoose = require('mongoose');
-const RSVP = require('./model.js').RSVP;
-const Master = require('./model.js').Master;
 const retrieveMembers = require('./controllers/retrievemembers.js').retrieveMembers;
 const processReport = require('./controllers/retrieversvp.js').processReport;
 const validateToken = require('./controllers/rsvp.js').validateToken;
