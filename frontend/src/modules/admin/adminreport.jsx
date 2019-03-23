@@ -18,11 +18,11 @@ const AdminReport = (props) => {
       Response Preferences:
       <br></br>
       <br></br>
-      <TypeReport data={report['beer']} key={'beer'} />
+      <TypeReport data={report['beer']} key='beer' />
       <br></br>
-      <TypeReport data={report['liquor']} key={'liquor'} />
+      <TypeReport data={report['liquor']} key='liquor' />
       <br></br>
-      <TypeReport data={report['wine']} key={'wine'} />
+      <TypeReport data={report['wine']} key='wine' />
       <br></br>
     </div>);
 }
