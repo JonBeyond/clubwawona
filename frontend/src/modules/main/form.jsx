@@ -1,5 +1,5 @@
 //this module is a bit more complex
-import styles from '../../../styles.css.js';
+import styles from '../../styles.css.js';
 
 const Form = (props) => {
   return (
@@ -46,11 +46,11 @@ const Form = (props) => {
         required></input>
       </label>
       <br></br>
-      <label htmlFor='security'>Private Registration Key:
+      <label htmlFor='token'>Private Registration Token:
         <input
         style={styles.input}
         type='text'
-        name='security'
+        name='token'
         required></input>
       </label>
       <br></br>
@@ -68,8 +68,7 @@ const Form = (props) => {
       <p>Please fill out this brief survey to help us procure supplies:</p>
       <label> Please choose your favorite 'party' beer:
         <select name='beer' style={styles.selector}>
-          <option value="Animal">I'm a party animal, I'll drink anything</option>
-          <option value='none'>I do not drink beer</option>
+          <option value='None'>I do not drink beer</option>
           <option value='Hops'>IPAs</option>
           <option value="Light">Kolsh/Lager/Pilsners</option>
           <option value='Sours'>Sours</option>
@@ -80,8 +79,7 @@ const Form = (props) => {
       <br></br>
       <label> Please choose your favorite liquor:
         <select name='liquor' style={styles.selector}>
-          <option value="Animal">No really, I have a serious problem </option>
-          <option value='none'>I do not drink liquor</option>
+          <option value='None'>I do not drink liquor</option>
           <option value='Vodka'>Vodka</option>
           <option value="Tequila">Tequila</option>
           <option value='Whiskey'>Whiskey</option>
@@ -92,10 +90,9 @@ const Form = (props) => {
       <br></br>
       <label> Please choose your favorite wine:
         <select name='wine' style={styles.selector}>
-          <option value="Animal">Liquor is quicker</option>
-          <option value='none'>I do not drink wine</option>
+          <option value='None'>I do not drink wine</option>
           <option value='Cab'>Cabernet Sauvingon</option>
-          <option value="Syrah">Syrah/Grenach/Mourvedre</option>
+          <option value="Syrah">Syrah/Grenach</option>
           <option value='Pinot'>Pinot Noir</option>
           <option value='White'>The non-red type of wine</option>
         </select>

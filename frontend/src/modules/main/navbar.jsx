@@ -1,4 +1,4 @@
-import styles from '../../../styles.css.js';
+import styles from '../../styles.css.js';
 
 const Navbar = (props) => {
   return (
@@ -24,6 +24,11 @@ const Navbar = (props) => {
           className='Contact'
           onClick={props.navigate}>
           Contact</li>
+          <li
+          style={('Admin' === props.current) ? styles.navBarSelected : styles.navBarElement}
+          className='Admin'
+          onClick={props.navigate}>
+          Admin</li>
       </ul>
       <div style={styles.navDivider}>
       <img src='https://s3-us-west-1.amazonaws.com/clubwawona/navbar.png'></img>

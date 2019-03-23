@@ -1,110 +1,41 @@
 const database = require('../config.js').database;
-const RSVP = require('./model.js').RSVP;
-const Master = require('./model.js').Master;
 const mongoose = require('mongoose');
+const retrieveMembers = require('./controllers/retrievemembers.js').retrieveMembers;
+const processReport = require('./controllers/retrieversvp.js').processReport;
+const validateToken = require('./controllers/rsvp.js').validateToken;
+const login = require('./controllers/login.js').login;
 
-const validateToken = (document, res) => {
-  Master.findOne({email: document.email}, (err, response) => {
-    if (response && response.token === document.security) {
-      console.log('pass');
-      saveRSVP(document, res);
-    } else {
-      console.log('fail');
-      res.send('badkey');
-    }
-  });
+const options = { useNewUrlParser: true, useCreateIndex: true };
 
+const handleError = (err, res) => {
+  console.log('Error connecting to database');
+  console.log(err);
+  res.status(500);
+  mongoose.connection.close();
+  process.exit();
 }
 
-const saveRSVP = (document, res) => {
-  RSVP.updateOne({email: document.email}, document, {upsert: true}, (err) => {
-    if (err) {
-      res.send(500);
-      console.log('Error adding or updating RSVP');
-    } else {
-      mongoose.connection.close(()=>{
-        res.sendStatus(200);
-      });
-    }
-  });
-}
-
-const processResponses = (res) => {
-  RSVP.find({}, (err, documents) => {
-    if (err) res.sendStatus(500);
-    dataBreakdown(res, documents);
-  });
-}
-
-const dataBreakdown = (res, documents) => {
-  let breakdown = {
-    registrations: [],
-    emails: [],
-    other: [],
-    primaryGuests: 0,
-    secondaryGuests: 0,
-    beer: {
-      "Animal": 0,
-      "none": 0,
-      "Hops": 0,
-      "Light": 0,
-      "Sours": 0,
-      "Heavy": 0
-    },
-    liquor: {
-      "Animal": 0,
-      "none": 0,
-      "Vodka": 0,
-      "Tequila": 0,
-      "Whiskey": 0,
-      "Gin": 0
-    },
-    wine:{
-      "Animal": 0,
-      "none": 0,
-      "Cab": 0,
-      "Syrah": 0,
-      "Pinot": 0,
-      "White": 0
-    }
-  };
-
-  documents.forEach(response => {
-    breakdown.emails.push(response['email']);
-    breakdown.registrations.push(`${response['firstName']} ${response['lastName']}`);
-    if (response['other'] !== '') breakdown.other.push(response['other']);
-    breakdown.beer[response['beer']]++;
-    breakdown.liquor[response['liquor']]++;
-    breakdown.wine[response['wine']]++;
-    breakdown.primaryGuests++;
-    breakdown.secondaryGuests += response['guests'];
-  });
-
-  res.send(breakdown);
-}
-
-module.exports = { //These are the controller entry points
+module.exports = {
   process: {
     RSVP: (document, res) => {
-      mongoose.connect(database, { useNewUrlParser: true, useCreateIndex: true })
-      .then(() => {
-        validateToken(document, res);
-      })
-      .catch((err) => {
-        console.log('Error connecting to mlab');
-        res.sendStatus(500);
-        mongoose.connection.close(); //just in case?? TODO: investigate.
-      });
+      mongoose.connect(database, options)
+      .then(() => validateToken(document, res))
+      .catch((err) => handleError(err, res));
     },
-    allResponses: (res) => {
-      mongoose.connect(database, { useNewUrlParser: true, useCreateIndex: true })
-      .then(() => {
-        processResponses(res);
-      })
-      .catch(err => {
-        console.log(err);
-        res.send(500);
-      });
+    allResponses: (req, res) => {
+      mongoose.connect(database, options)
+      .then(() => processReport(req, res))
+      .catch(err => handleError(err, res));
+    },
+    allMembers: (req, res) => {
+      mongoose.connect(database, options)
+      .then(() => retrieveMembers(req, res))
+      .catch(err => handleError(err, res));
+    },
+    login: (credential, res) => {
+      mongoose.connect(database, options)
+      .then(() => login(credential, res))
+      .catch(err => handleError(err, res));
     }
   }
 }

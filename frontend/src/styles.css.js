@@ -12,7 +12,8 @@ export default {
 
   navBar: {
     verticalAlign: 'middle',
-    textAlign: 'center'
+    textAlign: 'center',
+    padding: '0'
   },
 
   navBarElement: {
@@ -91,5 +92,15 @@ export default {
 //********** Residents **********
   bio: {
     width: '600px'
+  },
+
+//********** Footer **********
+  footer: {
+    textAlign: 'center',
+    margin: 'auto',
+    width: '600px',
+    position: 'absolute',
+    bottom: '0'
   }
+
 }

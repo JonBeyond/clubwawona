@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-//TODO: update the schema type for new events
+const RSVPVersion = 'MAY2019RSVP';
 const RSVPSchema = mongoose.Schema({
   firstName: String,
   lastName: String,
@@ -9,27 +9,32 @@ const RSVPSchema = mongoose.Schema({
     unique: true
   },
   guests: Number,
-  security: String,
   beer: String,
   liquor: String,
   wine: String,
   other: String
 });
-
-//TODO: update the collection for new events
-const RSVPVersion = 'MAY2019RSVP';
 const RSVP = mongoose.model(RSVPVersion, RSVPSchema);
 
-const MasterListSchema = mongoose.Schema({
+const MemberList = mongoose.Schema({
   email: {
     type: String,
     unique: true
   },
+  firstName: String,
+  lastName: String,
   token: String,
-  sent: Boolean
+  tokenSent: Boolean
 });
 
 const masterVersion = 'MAY2019MASTER';
-const Master = mongoose.model(masterVersion, MasterListSchema);
+const Master = mongoose.model(masterVersion, MemberList);
 
-module.exports = { RSVP, Master };
+const CredentialSchema = mongoose.Schema({
+  token: String,
+  type: String
+});
+const CredentialStorage = 'AUTHENTICATE';
+const Credentials = mongoose.model(CredentialStorage, CredentialSchema);
+
+module.exports = { RSVP, Master, Credentials };

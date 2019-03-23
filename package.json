@@ -5,9 +5,10 @@
   "main": "./frontend/painter.jsx",
   "dependencies": {
     "axios": "^0.18.0",
-    "blueimp-md5": "^2.10.0",
+    "bcrypt": "^3.0.5",
     "express": "^4.16.4",
-    "mongoose": "^5.4.19"
+    "mongoose": "^5.4.19",
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
     "@babel/core": "^7.3.4",

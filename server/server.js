@@ -2,8 +2,8 @@ const express = require('express');
 const server = express();
 const bodyParser = require("body-parser");
 const path = require('path');
-const mongoose = require('mongoose');
 const controller = require('./controller.js');
+const endpoint = require('../config.js').endpoint;
 const port = 3000;
 
 server.use(bodyParser.json());
@@ -12,23 +12,16 @@ server.use(bodyParser.json());
 //once deployed, bundle should be served from S3
 server.use('/',express.static(path.join(__dirname, '../frontend/dist')));
 
-// server.get('/', (req,res) => {
-//   res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
-// });
+server.post('/api/RSVP', (req, res) => controller.process.RSVP(req.body, res));
+server.get('/api/members/:auth', (req, res) => controller.process.allMembers(req, res));
+server.get('/api/report/:auth', (req, res) => controller.process.allResponses(req, res));
+server.post(`/api/authenticate/${endpoint}`, (req, res) => controller.process.login(req.body.credential, res));
 
-server.post('/api/RSVP', (req, res) => {
-  controller.process.RSVP(req.body, res);
-})
-
-server.get('/api/report', (req, res) => {
-  controller.process.allResponses(res);
-})
-
-server.listen(port, () => {
-  console.log(`Server is listening on ${port}`);
-})
+server.listen(port, () => console.log(`Server is listening on ${port}`))
 
 //In case of unknown error, we don't want to shut down the server:
+//--> this would be bad practice in a profesional server, but it is OK
+//for this private website.
 process.on('uncaughtException', function (err) {
   console.log(err);
 })
