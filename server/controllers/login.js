@@ -1,17 +1,18 @@
-const md5 = require('blueimp-md5');
-const key = require('../../config.js').tokenkey;
-const lookup = require('../../config.js').lookup;
+const bcrypt = require('bcrypt');
 const Credentials = require('../model.js').Credentials;
 
-const login = (credential, res) => {
-  let hashCredential = md5(credential,key);
-  Credentials.findOne({password: hashCredential}, (err, document) => {
-    if (err) res.send(500);
-    else if (document && document.password === hashCredential) { //just double check
-      res.send('PASSED');
-    } else {
-      res.send('badkey');
-    }
+const login = (providedPassword, res) => {
+  Credentials.findOne({type: 'admin'})
+  .then(credential => {
+    bcrypt.compare(providedPassword,  credential.token)
+    .then(response => {
+      if(response) res.send('PASSED')
+      else res.send('badkey')
+    })
+  })
+  .catch(err => {
+    console.log('error retrieving admin hash');
+    res.send(500);
   });
 }
 
