@@ -33,7 +33,7 @@ const TypeReport = (props) => {
   rows = percentages(rows);
 
   return (
-    <div>
+    <div key={props.key} >
       <b><u>Type - %</u></b>
       <br></br>
       {rows.map(row => {
