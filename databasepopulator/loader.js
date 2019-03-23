@@ -1,102 +1,124 @@
+// This file is intended for development purposes,
+//until the full admin panel is ready for deployment.
+//At that point, all database configuration will take place
+//via the admin panel.
+
 const mongoose = require('mongoose');
-const md5 = require('blueimp-md5');
+const bcrypt = require('bcrypt');
 const Schema = require('../server/model.js');//can use: Master, RSVP, Credentials
 const config = require('../config.js');
+const saltRounds = 12; //13 for production
 
 //***********   GENERATE FAKE EMAILS   ***********//
 let emails = [];
 for (let i = 0; i < 50; i++) {emails.push(`fakeemail${i}@gmail.com`)}
 
-
 //*********** REUSABLE HELPER FUNCTIONS ***********//
+
+//********************************
 //Upsert a record, via promise:
-//Example usage:
+//Example input:
   //query: {email: doc.email}
   //cabinent: schema.RSVP, schema.Master, schema.Credentials
-
 const update = (doc, cabinent, query) => {
   return new Promise((resolve, reject) => {
     cabinent.updateOne(query, doc, {upsert: true}, (err) => {
       if(err) reject(err);
-      resolve();
+      resolve(doc);
     });
   });
 }
 
+const getRandomSelection = (array) => {
+  let rand = ~~(Math.random()*Math.random()*array.length);
+  return array[rand];
+}
+
+const handleError = (err, state) => {
+  console.error(state);
+  console.error(err);
+  mongoose.connection.close();
+  process.exit();
+}
+
 //***********         LOADERS            ***********//
 const generateCredential = () => {
-  console.log(`creating MD5 with ${config.credential} and ${config.tokenkey}`);
-  let cred = {
-    password: md5(config.credential, config.tokenkey)
-  }
-  update(cred, Schema.Credentials, {password: cred.password})
-  .then(() => {
-    console.log('Database complete');
-    mongoose.connection.close();
-    process.exit();
-  })
-  .catch(err => {
-    console.log('Error creating credential');
-    mongoose.connection.close();
-    process.exit();
-  })
+  bcrypt.genSalt(saltRounds, (err, salt) => {
+    bcrypt.hash(config.credential, salt, (err, hash) => {
+      let document = {
+        type: 'admin',
+        token: hash
+      }
+      update(document, Schema.Credentials, {type: 'admin'})
+      .then(() => {
+        console.log('Admin credential complete');
+        mongoose.connection.close();
+        process.exit();
+      })
+      .catch(err => handleError(err, 'Error creating credential'));
+    });
+  });
 }
 
 const loadRSVPs = (documents) => {
   let upserts = [];
+  const beerOptions = ['None','Sours','Light','Hops','Heavy'];
+  const liquorOptions = ['None', 'Tequila', 'Whiskey', 'Gin'];
+  const wineOptions = ['None', 'Cab', 'Syrah', 'Pinot', 'White'];
   documents.forEach(document => {
     delete document['tokenSent'];
-    document['security'] = document['token'];
-    delete document['token']; //TODO:
+    delete document['token'];
     document['guests'] = 0;
-    document['beer'] = 'Sours';
-    document['wine'] = 'Cab';
-    document['liquor'] = 'Tequila';
+    document['beer'] = getRandomSelection(beerOptions);
+    document['wine'] = getRandomSelection(wineOptions);
+    document['liquor'] = getRandomSelection(liquorOptions);
     document['other'] = '';
     upserts.push(update(document, Schema.RSVP, {email: document['email']}));
   });
 
   Promise.all(upserts)
-  .then(() => {
+  .then((docs) => {
     console.log('RSVPs loaded');
     generateCredential();
   })
-  .catch((err) => {
-    console.log('error updating RSVPs');
-    console.log(err);
-    mongoose.connection.close();
-    process.exit();
-  })
+  .catch((err) => handleError(err, 'Error updating RSVPs'));
 }
 
 const createMasterList = () => {
-  let upserts = [];
-  let docs = [];
-  emails.forEach(email => {
-    let document = {
-        email: email,
-        token: md5(email.toLowerCase(),config.tokenkey),
-        tokenSent: false,
-        firstName: 'blank',
-        lastName: 'blanky'
-    }
-    upserts.push(update(document, Schema.Master, {email: document.email}));
-    docs.push(document); //replace the email with the document.
+  let upserts = emails.map(email => {
+    return generateHash(email);
   });
-
   Promise.all(upserts)
-  .then(() => {
+  .then((docs) => {
     console.log('Master list has been loaded.');
     loadRSVPs(docs);
   })
-  .catch((err) => {
-    console.log(`error updating master list: ${err}`);
-    mongoose.connection.close();
-    process.exit();
-  });
+  .catch((err) => handleError(err, 'Error updating master list'));
 }
 
-const dropDatabases = () => {
+const generateHash = (email) => {
+  return new Promise((resolve, reject) => {
+    bcrypt.genSalt(saltRounds)
+    .then(salt => {
+      bcrypt.hash(config.credential, salt)
+      .then(hash => {
+        let document = {
+          email: email,
+          firstName: 'blank',
+          lastName: 'blanky',
+          token: hash,
+          tokenSent: false
+        }
+        update(document, Schema.Master, {email: document.email})
+        .then(document => resolve(document))
+        .catch(err => reject(err));
+      })
+      .catch(err => reject(err));
+    });
+  })
+}
+
+const deleteExistingCollections = () => {
   Schema.RSVP.deleteMany({}).then(() => {
     console.log('RSVPs deleted.');
     Schema.Master.deleteMany({}).then(() => {
@@ -107,20 +129,12 @@ const dropDatabases = () => {
       })
     })
   })
-  .catch(err => {
-    console.log('Error dropping databases');
-    mongoose.connection.close();
-    process.exit();
-  });
+  .catch(err => handleError(err, 'Error dropping databases'));
 }
 
-//****** LOADER / INITIALIZER ******//
+//****** START THE LOADER ******//
 (function () {
   mongoose.connect(config.database, { useNewUrlParser: true, useCreateIndex: true })
-  .then(() => dropDatabases())
-  .catch((err) => {
-    console.log('error connecting to the database');
-    mongoose.connection.close();
-    process.exit();
-  });
+  .then(() => deleteExistingCollections())
+  .catch((err) => handleError(err, 'Error connecting to the database'));
 })()
