@@ -30,7 +30,7 @@ class Main extends React.Component {
         lastName: form.target.lastName.value,
         email: form.target.email.value,
         guests: Number(form.target.guests.value),
-        security: form.target.security.value,
+        token: form.target.token.value,
         beer: form.target.beer.value,
         liquor: form.target.liquor.value,
         wine: form.target.wine.value,
@@ -46,8 +46,14 @@ class Main extends React.Component {
     .then(res => {
       if (res.data === 'badkey') {
         alert('The private key provided did not match the record on file.\nPlease try again.\nContact clubwawona@gmail.com if the issue persists.');
-      } else {
+      } else if (res.data === 'Accepted') {
         alert('Your RSVP was accepted! See you soon!');
+      } else if (res.data === 'unregistered')  {
+        alert('You are not a registered guest.');
+      } else if (res.status === 500) {
+        alert('Unable to save RSVP due to a server error.  Please email clubwawona@gmail.com');
+      } else {
+        alert('Something went wrong on the server :( Please email clubwawona@gmail.com');
       }
     })
     .catch((err) => {
