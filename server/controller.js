@@ -22,14 +22,14 @@ module.exports = { //These are the controller entry points
       .then(() => validateToken(document, res))
       .catch((err) => handleError(err, res));
     },
-    allResponses: (res) => {
+    allResponses: (req, res) => {
       mongoose.connect(database, options)
-      .then(() => processReport(res))
+      .then(() => processReport(req, res))
       .catch(err => handleError(err, res));
     },
-    allMembers: (res) => {
+    allMembers: (req, res) => {
       mongoose.connect(database, options)
-      .then(() => retrieveMembers(res))
+      .then(() => retrieveMembers(req, res))
       .catch(err => handleError(err, res));
     },
     login: (credential, res) => {
