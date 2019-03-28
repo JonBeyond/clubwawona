@@ -7,7 +7,8 @@ const retrieveMembers = (req, res) => {
       if (err) res.sendStatus(500);
       let list = [];
       documents.forEach((doc) => {
-        list.push([doc['email'],doc['token']]);
+        let name = doc['firstName'] + ' ' + doc['lastName'];
+        list.push([ name, doc['email'], doc['token'] ]);
       });
       res.send(list);
     });
