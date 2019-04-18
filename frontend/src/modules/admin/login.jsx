@@ -1,12 +1,14 @@
 const Login = (props) => {
   return (<div>
-    Enter the administration password:
+    Password:
     <br></br>
-    <input id='credentials' ></input>
+    <input type='password' id='credentials' ></input>
     <br></br>
-    Enter the entry point:
     <br></br>
-    <input id='endpoint'></input>
+    Gateway:
+    <br></br>
+    <input type='password' id='endpoint'></input>
+    <br></br>
     <br></br>
     <input type='submit' onClick={() => {props.login()}} value='Login'></input>
   </div>)
