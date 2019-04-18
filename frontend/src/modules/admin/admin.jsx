@@ -15,6 +15,8 @@ class Admin extends React.Component {
     };
     this.navigate = this.navigate.bind(this);
     this.adminLogin = this.adminLogin.bind(this);
+    this.sendEmail = this.sendEmail.bind(this);
+    this.resetEmail = this.resetEmail.bind(this);
   }
 
   adminLogin() {
@@ -23,13 +25,13 @@ class Admin extends React.Component {
     Axios.post(`/api/authenticate/${endpoint}`, {credential: credential})
     .then(res => {
       if (res.data.status === 'PASSED') {
-        console.log(res.data);
+        // console.log(res.data);
         this.setState({
           page: 'Report',
           cleared: true,
           APIKey: res.data.APIKey
         }, () => {
-          this.postLogin();
+          this.getReport();
         });
       } else alert('Bad password.');
     })
@@ -38,25 +40,49 @@ class Admin extends React.Component {
     });
   }
 
-  postLogin() {
+  getReport() {
     Axios.get(`/api/report/${this.state.APIKey}`)
     .then(res => {
       this.setState({
         report: res.data
+      }, () => {
+        this.getMembers();
       })
     })
     .catch(err => {
       console.log(err);
     });
+  }
 
+  getMembers() {
     Axios.get(`api/members/${this.state.APIKey}`)
     .then(res => {
       this.setState({
         list: res.data
+      }, () => {
+        this.processData();
       });
     })
     .catch(err => {
       console.log(err);
+    });
+  }
+
+  processData() {
+    let list = this.state.list.slice(); //copy for processing
+    list.forEach(member => {
+      member['registered'] = false;
+      this.state.report['emails'].forEach(email => {
+        if (member['email'] === email) {
+          member['registered'] = true;
+        }
+      });
+    });
+    //re-render? TODO:
+    this.setState({
+      list: list
+    }, () => {
+      // console.log(list);
     });
   }
 
@@ -69,9 +95,16 @@ class Admin extends React.Component {
   }
 
   sendEmail(email) {
-    //Process: check if email was sent
+    //Process: verify if email was sent
     // -> if yes, then don't sent (it must be reset to make sure emails don't get sent more than once);
     //
+    console.log('this feature is not yet available');
+  }
+
+  resetEmail(email) {
+    //RESET the email boolean to allow the button to send.
+    //perhaps there should be a confirmation popup?
+    //need to weigh spamming people
     console.log('this feature is not yet available');
   }
 
@@ -85,7 +118,12 @@ class Admin extends React.Component {
       <div className='Admin'>
         <AdminBar current={this.state.page} navigate={this.navigate} />
         <div className='memberPanel'>
-          <AdminPanel page={this.state.page} report={this.state.report} list={this.state.list} />
+          <AdminPanel
+          page={this.state.page}
+          report={this.state.report}
+          list={this.state.list}
+          sendEmail={this.sendEmail}
+          resetEmail={this.resetEmail} />
         </div>
       </div>
     );
