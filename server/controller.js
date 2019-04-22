@@ -49,7 +49,6 @@ module.exports = {
       mongoose.connect(database, options)
       .then(() => master.addToMaster(req, res))
       .catch(err => handleError(err, res));
-
     },
     deleteMaster: () => {
       mongoose.connect(database, options)
