@@ -6,8 +6,7 @@ const retrieveMembers = require('./controllers/retrievemembers.js').retrieveMemb
 const processReport = require('./controllers/retrieversvp.js').processReport;
 const validateToken = require('./controllers/rsvp.js').validateToken;
 const login = require('./controllers/login.js').login;
-const updateMember = require('./controllers/updatemember.js').updateMember;
-
+const master = require('./controllers/master.js');
 
 const options = { useNewUrlParser: true, useCreateIndex: true };
 
@@ -18,7 +17,6 @@ const handleError = (err, res) => {
   mongoose.connection.close();
   process.exit();
 }
-
 
 module.exports = {
   process: {
@@ -42,9 +40,20 @@ module.exports = {
       .then(() => login(credential, res))
       .catch(err => handleError(err, res));
     },
-    member: (req, res) => {
+    updateMaster: (req, res) => {
       mongoose.connect(database, options)
-      .then(() => updateMember(req, res))
+      .then(() => master.updateMaster(req, res))
+      .catch(err => handleError(err, res));
+    },
+    addToMaster: () => {
+      mongoose.connect(database, options)
+      .then(() => master.addToMaster(req, res))
+      .catch(err => handleError(err, res));
+
+    },
+    deleteMaster: () => {
+      mongoose.connect(database, options)
+      .then(() => master.deleteMaster(req, res))
       .catch(err => handleError(err, res));
     }
   }
