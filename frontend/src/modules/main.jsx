@@ -46,9 +46,9 @@ class Main extends React.Component {
     .then(res => {
       if (res.data === 'badkey') {
         alert('The private key provided did not match the record on file.\nPlease try again.\nContact clubwawona@gmail.com if the issue persists.');
-      } else if (res.data === 'Accepted') {
+      } else if (res.status === 201) {
         alert('Your RSVP was accepted! See you soon!');
-      } else if (res.data === 'unregistered')  {
+      } else if (res.status === 401)  {
         alert('You are not a registered guest.');
       } else if (res.status === 500) {
         alert('Unable to save RSVP due to a server error.  Please email clubwawona@gmail.com');
