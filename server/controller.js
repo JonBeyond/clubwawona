@@ -1,9 +1,13 @@
 const database = require('../config.js').database;
 const mongoose = require('mongoose');
+
+//External functions:
 const retrieveMembers = require('./controllers/retrievemembers.js').retrieveMembers;
 const processReport = require('./controllers/retrieversvp.js').processReport;
 const validateToken = require('./controllers/rsvp.js').validateToken;
 const login = require('./controllers/login.js').login;
+const updateMember = require('./controllers/updatemember.js').updateMember;
+
 
 const options = { useNewUrlParser: true, useCreateIndex: true };
 
@@ -14,6 +18,7 @@ const handleError = (err, res) => {
   mongoose.connection.close();
   process.exit();
 }
+
 
 module.exports = {
   process: {
@@ -35,6 +40,11 @@ module.exports = {
     login: (credential, res) => {
       mongoose.connect(database, options)
       .then(() => login(credential, res))
+      .catch(err => handleError(err, res));
+    },
+    member: (req, res) => {
+      mongoose.connect(database, options)
+      .then(() => updateMember(req, res))
       .catch(err => handleError(err, res));
     }
   }
