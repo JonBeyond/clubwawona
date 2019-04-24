@@ -13,11 +13,13 @@ export default {
   navBar: {
     verticalAlign: 'middle',
     textAlign: 'center',
-    padding: '0'
+    padding: '0',
+    borderRadius: '10px',
   },
 
   navBarElement: {
     boxSizing: 'border-box',
+    borderRadius: '10px',
     display: 'inline-block',
     listStylePosition: 'outside',
     verticalAlign: 'top',
