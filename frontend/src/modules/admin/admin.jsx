@@ -19,6 +19,7 @@ class Admin extends React.Component {
     this.sendEmail = this.sendEmail.bind(this);
     this.resetEmail = this.resetEmail.bind(this);
     this.removeEmail = this.removeEmail.bind(this);
+    this.addMember = this.addMember.bind(this);
   }
 
   navigate(event) {
@@ -96,10 +97,60 @@ class Admin extends React.Component {
       list: list
     }, () => {
       // console.log(list);
+      //this is for the post-MVP of showing state
     });
   }
 
 //******************** THELIST MANAGEMENT FUNCTIONS ********************/
+
+  addMember(form) {
+    form.preventDefault();
+    console.log('not completed yet!!!');
+    let newMember = {
+      firstName: form.target.firstName.value,
+      lastName: form.target.lastName.value,
+      email: form.target.email.value
+    }
+    console.log(newMember);
+    //TODO: API calls
+  }
+
+  resetEmail(event) {
+    let doc = {email: event.target.id.toLowerCase()};
+    Axios.patch(`/api/master/${this.state.APIKey}/reset`, doc)
+    .then(res => {
+      if (res.status === 200) {
+        console.log(`Email reset`);
+        this.getReport();
+      } else if (res.status === 500) {
+        console.error(`Internal server error updating email ${doc}`);
+      } else if (res.status === 401) {
+        console.error(`The API Code has expired.  Please login.`);
+      } else console.error(`Unhandled error resetting email: ${res.status}`);
+    })
+    .catch(err => {
+      console.error(`Error sending RSVP: ${err}`);
+    });
+  }
+
+  removeEmail(event) {
+    let email = event.target.id.toLowerCase();
+    if(confirm(`Please confirm removal of ${email}.  This operation is not reversable and all RSVPs will remain in the database`)) {
+      Axios.delete(`/api/master/${this.state.APIKey}/${email}`)
+      .then((res)=> {
+        if (res.status === 200) {
+          console.log(`${email} removed`);
+          this.getReport();
+        } else if (res.status === 404) {
+          console.error(`${email} was not found in the list`);
+        } else if (res.status === 500)
+          console.error(`${email} failed to be removed due to a server error`);
+      })
+      .catch(err => {
+        console.error(`Error deleting RSVP: ${err}`);
+      });
+    }
+  }
 
   sendEmail(event) { //TODO:
     //Process: verify if email was sent
@@ -117,30 +168,6 @@ class Admin extends React.Component {
     //3) the server will interact with OAUTH/etc.
     //4) there needs to be new router and controller code on the server side
     // For now, this section just needs to make an API call and handle errors.
-
-  }
-
-  resetEmail(event) { //TODO:
-    //RESET the email boolean to allow the button to send.
-    //perhaps there should be a confirmation popup?
-    //need to weigh spamming people
-    //TODO: this is similar to the above, only needs to make an API call and handle
-    // errors.  Any updates should trigger a state refresh. TODO: think about this a little more.
-    // Do I want a full data refresh for every minor change?
-    let doc = {
-      email: event.target.id,
-      tokenSent: true //TODO:
-    };
-    //send the above over API
-
-    console.log('this feature is not yet available');
-  }
-
-  removeEmail(event) {
-    //TODO: open a confirmation page
-    //then remove the email from the master(? does it need to be removed from RSVP..?)
-    //re-render.
-    console.log('this feature is not yet available');
 
   }
 
@@ -162,10 +189,10 @@ class Admin extends React.Component {
           page={this.state.page}
           report={this.state.report}
           list={this.state.list}
+          addMember={this.addMember}
           sendEmail={this.sendEmail}
           resetEmail={this.resetEmail}
-          removeEmail={this.removeEmail}
-           />
+          removeEmail={this.removeEmail} />
         </div>
       </div>
     );
