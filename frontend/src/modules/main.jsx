@@ -23,7 +23,7 @@ class Main extends React.Component {
   }
 
   handleRSVP(form) {
-    event.preventDefault();
+    form.preventDefault();
     this.setState({
       RSVP: {
         firstName: form.target.firstName.value,
