@@ -8,7 +8,7 @@ const AdminBar = (props) => {
           style={('Members' === props.current) ? styles.navBarSelected : styles.navBarElement}
           className='Members'
           onClick={props.navigate}>
-          Member Management</li>
+          Manage Members</li>
         <li
           style={('AddMember' === props.current) ? styles.navBarSelected : styles.navBarElement}
           className='AddMember'
