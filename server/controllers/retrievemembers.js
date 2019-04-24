@@ -1,14 +1,17 @@
 const Master = require('../model.js').Master;
-const checkCurrentAuthKey = require('./login.js').checkCurrentAuthKey;
+const checkCurrentAuthKey = require('./authorization.js').checkCurrentAuthKey;
 
 const retrieveMembers = (req, res) => {
-  if (checkCurrentAuthKey(Number(req.url.substring(13)))) {
+  if (checkCurrentAuthKey(req.params.auth)) {
     Master.find({}, (err, documents) => {
       if (err) res.sendStatus(500);
       let list = [];
       documents.forEach((doc) => {
-        let name = doc['firstName'] + ' ' + doc['lastName'];
-        list.push([ name, doc['email'], doc['token'] ]);
+        list.push({
+          name: doc['firstName'] + ' ' + doc['lastName'],
+          email: doc['email'],
+          token: doc['token'],
+          tokenSent: doc['tokenSent']});
       });
       res.send(list);
     });

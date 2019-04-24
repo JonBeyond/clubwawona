@@ -1,8 +1,8 @@
 const RSVP = require('../model.js').RSVP;
-const checkCurrentAuthKey = require('./login.js').checkCurrentAuthKey;
+const checkCurrentAuthKey = require('./authorization.js').checkCurrentAuthKey;
 
 const processReport = (req, res) => {
-  if (checkCurrentAuthKey(Number(req.url.substring(12)))) {
+  if (checkCurrentAuthKey(req.params.auth)) {
     RSVP.find({}, (err, documents) => {
       if (err) res.sendStatus(500);
       dataBreakdown(res, documents);
