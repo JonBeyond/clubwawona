@@ -1,5 +1,6 @@
 const database = require('../config.js').database;
 const mongoose = require('mongoose');
+const options = { useNewUrlParser: true, useCreateIndex: true };
 
 //External functions:
 const retrieveMembers = require('./controllers/retrievemembers.js').retrieveMembers;
@@ -7,8 +8,6 @@ const processReport = require('./controllers/retrieversvp.js').processReport;
 const validateToken = require('./controllers/rsvp.js').validateToken;
 const login = require('./controllers/login.js').login;
 const master = require('./controllers/master.js');
-
-const options = { useNewUrlParser: true, useCreateIndex: true };
 
 const handleError = (err, res) => {
   console.log('Error connecting to database');
@@ -19,7 +18,6 @@ const handleError = (err, res) => {
 }
 
 module.exports = {
-  process: {
     RSVP: (document, res) => {
       mongoose.connect(database, options)
       .then(() => validateToken(document, res))
@@ -55,5 +53,4 @@ module.exports = {
       .then(() => master.deleteMaster(req, res))
       .catch(err => handleError(err, res));
     }
-  }
 }
