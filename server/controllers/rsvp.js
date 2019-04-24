@@ -10,10 +10,12 @@ const validateToken = (document, res) => {
       saveRSVP(document, res);
     } else if (response === null) {
       console.log(`User ${document.email} is not registered`);
-      res.send('unregistered');
+      res.sendStatus(401);
+      mongoose.connection.close();
     } else {
       console.log(`Failed registration - bad key for ${document.email}`);
-      res.send('badkey');
+      res.send('badkey'); //TODO: this is BAD! Need to trace to main component and fix on both ends.  This hsould be a standard HTTP code
+      mongoose.connection.close();
     }
   });
 }
@@ -23,10 +25,10 @@ const saveRSVP = (document, res) => {
     if (err) {
       res.sendStatus(500);
       console.log('Error adding or updating RSVP');
+      mongoose.connection.close();
     } else {
-      mongoose.connection.close(()=>{
-        res.send('Accepted');
-      });
+      res.sendStatus(201);
+      mongoose.connection.close();
     }
   });
 }
