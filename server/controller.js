@@ -6,7 +6,7 @@ const options = { useNewUrlParser: true, useCreateIndex: true };
 const retrieveMembers = require('./controllers/retrievemembers.js').retrieveMembers;
 const processReport = require('./controllers/retrieversvp.js').processReport;
 const validateToken = require('./controllers/rsvp.js').validateToken;
-const login = require('./controllers/login.js').login;
+const login = require('./controllers/authorization.js').login;
 const master = require('./controllers/master.js');
 
 const handleError = (err, res) => {
@@ -18,9 +18,9 @@ const handleError = (err, res) => {
 }
 
 module.exports = {
-    RSVP: (document, res) => {
+    RSVP: (req, res) => {
       mongoose.connect(database, options)
-      .then(() => validateToken(document, res))
+      .then(() => validateToken(req.body, res))
       .catch((err) => handleError(err, res));
     },
     allResponses: (req, res) => {
@@ -33,24 +33,24 @@ module.exports = {
       .then(() => retrieveMembers(req, res))
       .catch(err => handleError(err, res));
     },
-    login: (credential, res) => {
+    login: (req, res) => {
       mongoose.connect(database, options)
-      .then(() => login(credential, res))
+      .then(() => login(req.body.credential, res))
       .catch(err => handleError(err, res));
     },
-    updateMaster: (req, res) => {
+    resetEmail: (req, res) => {
       mongoose.connect(database, options)
-      .then(() => master.updateMaster(req, res))
+      .then(() => master.resetEmail(req, res))
       .catch(err => handleError(err, res));
     },
-    addToMaster: () => {
+    addMember: (req, res) => {
       mongoose.connect(database, options)
-      .then(() => master.addToMaster(req, res))
+      .then(() => master.addMember(req, res))
       .catch(err => handleError(err, res));
     },
-    deleteMaster: () => {
+    deleteMember: (req, res) => {
       mongoose.connect(database, options)
-      .then(() => master.deleteMaster(req, res))
+      .then(() => master.deleteMember(req, res))
       .catch(err => handleError(err, res));
     }
 }
