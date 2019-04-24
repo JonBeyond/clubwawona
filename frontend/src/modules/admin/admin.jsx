@@ -13,11 +13,23 @@ class Admin extends React.Component {
       cleared: false,
       APIKey: null
     };
+
     this.navigate = this.navigate.bind(this);
     this.adminLogin = this.adminLogin.bind(this);
     this.sendEmail = this.sendEmail.bind(this);
     this.resetEmail = this.resetEmail.bind(this);
+    this.removeEmail = this.removeEmail.bind(this);
   }
+
+  navigate(event) {
+    if (event.target.className !== this.state.page) { //dont generate a new render unless we need to.
+      this.setState({
+        page: event.target.className
+      });
+    }
+  }
+
+//******************** LOGIN ********************/
 
   adminLogin() {
     let credential = document.getElementById('credentials').value;
@@ -25,7 +37,6 @@ class Admin extends React.Component {
     Axios.post(`/api/authenticate/${endpoint}`, {credential: credential})
     .then(res => {
       if (res.data.status === 'PASSED') {
-        // console.log(res.data);
         this.setState({
           page: 'Report',
           cleared: true,
@@ -33,12 +44,14 @@ class Admin extends React.Component {
         }, () => {
           this.getReport();
         });
-      } else alert('Bad password.');
+      } else alert('do you belong here...? :-(');
     })
     .catch(err => {
-      console.log(`Error authenticating: ${err}`);
+      console.error(`Error authenticating: ${err}`);
     });
   }
+
+//******************** API / REPORTING FUNCTIONS ********************/
 
   getReport() {
     Axios.get(`/api/report/${this.state.APIKey}`)
@@ -50,7 +63,7 @@ class Admin extends React.Component {
       })
     })
     .catch(err => {
-      console.log(err);
+      console.error(err);
     });
   }
 
@@ -60,15 +73,15 @@ class Admin extends React.Component {
       this.setState({
         list: res.data
       }, () => {
-        this.processData();
+        this.checkIfRSVPed();
       });
     })
     .catch(err => {
-      console.log(err);
+      console.error(err);
     });
   }
 
-  processData() {
+  checkIfRSVPed() {
     let list = this.state.list.slice(); //copy for processing
     list.forEach(member => {
       member['registered'] = false;
@@ -78,7 +91,7 @@ class Admin extends React.Component {
         }
       });
     });
-    //re-render? TODO:
+    // TODO: perform a re-render using setState.  Come back to this later; not important now.
     this.setState({
       list: list
     }, () => {
@@ -86,13 +99,7 @@ class Admin extends React.Component {
     });
   }
 
-  navigate(event) {
-    if (event.target.className !== this.state.page) { //dont generate a new render unless we need to.
-      this.setState({
-        page: event.target.className
-      });
-    }
-  }
+//******************** THELIST MANAGEMENT FUNCTIONS ********************/
 
   sendEmail(event) { //TODO:
     //Process: verify if email was sent
@@ -120,10 +127,24 @@ class Admin extends React.Component {
     //TODO: this is similar to the above, only needs to make an API call and handle
     // errors.  Any updates should trigger a state refresh. TODO: think about this a little more.
     // Do I want a full data refresh for every minor change?
-    let email = event.target.id;
+    let doc = {
+      email: event.target.id,
+      tokenSent: true //TODO:
+    };
+    //send the above over API
 
     console.log('this feature is not yet available');
   }
+
+  removeEmail(event) {
+    //TODO: open a confirmation page
+    //then remove the email from the master(? does it need to be removed from RSVP..?)
+    //re-render.
+    console.log('this feature is not yet available');
+
+  }
+
+//******************** VIEWER ********************/
 
   render() {
     if (this.state.cleared === false) {
@@ -133,14 +154,18 @@ class Admin extends React.Component {
     } else
     return (
       <div className='Admin'>
-        <AdminBar current={this.state.page} navigate={this.navigate} />
+        <AdminBar
+          current={this.state.page}
+          navigate={this.navigate} />
         <div className='memberPanel'>
           <AdminPanel
           page={this.state.page}
           report={this.state.report}
           list={this.state.list}
           sendEmail={this.sendEmail}
-          resetEmail={this.resetEmail} />
+          resetEmail={this.resetEmail}
+          removeEmail={this.removeEmail}
+           />
         </div>
       </div>
     );

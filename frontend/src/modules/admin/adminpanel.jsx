@@ -1,5 +1,6 @@
 import AdminReport from './adminreport.jsx';
 import Members from './members.jsx';
+import NewMember from './newmember.jsx';
 
 const AdminPanel = (props) => {
   if (props.page === 'Report') {
@@ -8,7 +9,12 @@ const AdminPanel = (props) => {
       return (<Members
                 list={props.list}
                 sendEmail={props.sendEmail}
-                resetEmail={props.resetEmail} />);
+                resetEmail={props.resetEmail}
+                removeEmail={props.removeEmail} />);
+  } else if (props.page === 'AddMember') {
+    return (<NewMember
+            addMember={props.addMember} />
+    );
   } else {
       return (
       <div>CONTENT RENDER ERROR</div>
