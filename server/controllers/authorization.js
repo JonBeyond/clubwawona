@@ -35,15 +35,16 @@ const generateTemporaryKey = () => {
   console.log(`Generated new key: ${authKey}`);
   //generate a temporary key (Only one session can be active at any time)
   setTimeout(() => {
-    console.log(`Deleting authkey: ${authKey}`);
+    console.log(`Authkey timeout: ${authKey}`);
     authKey = null;
     console.log(`Authkey should be null: ${authKey}`);
   }, 600000);
   return authKey;
 }
 
-const checkCurrentAuthKey = (key) => {
-  console.log(`comparing providied: ${key} with official: ${authKey}`);
+const checkCurrentAuthKey = (input) => {
+  let key = Number(input);
+  console.log(`comparing providied: ${key} with official: ${authKey} (Result: ${key === authKey})`);
   if (key === null) return false;
   else return key === authKey;
 }
