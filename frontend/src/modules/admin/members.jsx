@@ -18,6 +18,7 @@ const cell = {
 const Members = (props) => {
   return (
     <div className='memberslist'>
+      Size of list: {`${props.list.length}`}
       <table style={style}>
         <thead>
           <tr>
