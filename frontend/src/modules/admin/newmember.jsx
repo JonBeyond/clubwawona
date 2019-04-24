@@ -3,7 +3,7 @@ import styles from '../../styles.css.js';
 const NewMember = (props) => {
   return (
     <div> New Member Form:
-    <form className='newmember'>
+    <form className='newmember' onSubmit={props.addMember}>
       <label htmlFor='firstName'>First Name:
         <input
         style={styles.input}
