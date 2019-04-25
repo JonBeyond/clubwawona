@@ -1,5 +1,6 @@
 const Master = require('../model.js').Master;
 const checkCurrentAuthKey = require('./authorization.js').checkCurrentAuthKey;
+const mongoose = require('mongoose');
 
 const resetEmail = (req, res) => {
   if (checkCurrentAuthKey(req.params.auth)) {
@@ -13,9 +14,11 @@ const resetEmail = (req, res) => {
         console.error(`Attempted reset to of a non-existant email: ${req.body.email.toLowerCase()}`);
         res.sendStatus(500);
       }
+      mongoose.connection.close();
     });
   } else {
     res.sendStatus(401);
+    mongoose.connection.close();
   }
 }
 
@@ -37,13 +40,16 @@ const deleteMember = (req, res) => {
         console.log(`Email not found`);
         res.sendStatus(404);
       }
+      mongoose.connection.close();
     })
     .catch(err => {
       console.error(err);
       res.sendStatus(500);
+      mongoose.connection.close();
     })
   } else {
     res.sendStatus(401);
+    mongoose.connection.close();
   }
 };
 
