@@ -2,6 +2,10 @@ const Master = require('../model.js').Master;
 const checkCurrentAuthKey = require('./authorization.js').checkCurrentAuthKey;
 const mongoose = require('mongoose');
 
+ //for user tokens
+const uuidv5 = require('uuid/v5');
+const config = require('../../config.js');
+
 const resetEmail = (req, res) => {
   if (checkCurrentAuthKey(req.params.auth)) {
     Master.findOneAndUpdate({email: req.body.email.toLowerCase()}, {tokenSent: false}, {upsert: false}, (err, doc)  => {
@@ -23,9 +27,24 @@ const resetEmail = (req, res) => {
 }
 
 const addMember = (req, res) => {
-  //TODO: add a new email into the database
-  //use 'upsert'.  This will allow for name changes.
-  //handle errors
+  let member = {
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    email: req.body.email.toLowerCase(),
+    token: uuidv5(req.body.email.toLowerCase(), config.eventIdentifier),
+    tokenSent: false
+  };
+  Master.updateOne({email: member.email}, member, {upsert: true}, (err, doc) => {
+    if (err) {
+      res.sendStatus(500);
+      console.error(`Error adding new member ${member.email}`);
+    } else {
+      res.sendStatus(200);
+      console.error(`Added email ${member.email}`);
+    }
+    if (doc) console.log(doc);
+    mongoose.connection.close();
+  })
 };
 
 const deleteMember = (req, res) => {
