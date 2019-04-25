@@ -105,14 +105,19 @@ class Admin extends React.Component {
 
   addMember(form) {
     form.preventDefault();
-    console.log('not completed yet!!!');
     let newMember = {
       firstName: form.target.firstName.value,
       lastName: form.target.lastName.value,
       email: form.target.email.value
-    }
-    console.log(newMember);
-    //TODO: API calls
+    };
+    Axios.post(`/api/master/${this.state.APIKey}`, newMember)
+    .then(res => {
+      if (res.status === 200) {
+        console.log('refresh data');
+        this.getReport();
+      } else console.error(`Error when attempting to add a new member: ${res.status}`);
+    })
+    .catch(err => console.error(`Error adding member: ${err}`));
   }
 
   resetEmail(event) {
