@@ -1,13 +1,18 @@
 const RSVP = require('../model.js').RSVP;
 const checkCurrentAuthKey = require('./authorization.js').checkCurrentAuthKey;
+const mongoose = require('mongoose');
 
 const processReport = (req, res) => {
   if (checkCurrentAuthKey(req.params.auth)) {
     RSVP.find({}, (err, documents) => {
       if (err) res.sendStatus(500);
       dataBreakdown(res, documents);
+      mongoose.connection.close();
     });
-  } else res.send('bad or expired api key');
+  } else {
+    res.send('bad or expired api key');
+    mongoose.connection.close();
+  }
 }
 
 const dataBreakdown = (res, documents) => {

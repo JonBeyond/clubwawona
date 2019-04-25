@@ -1,5 +1,6 @@
 const Master = require('../model.js').Master;
 const checkCurrentAuthKey = require('./authorization.js').checkCurrentAuthKey;
+const mongoose = require('mongoose');
 
 const retrieveMembers = (req, res) => {
   if (checkCurrentAuthKey(req.params.auth)) {
@@ -14,8 +15,12 @@ const retrieveMembers = (req, res) => {
           tokenSent: doc['tokenSent']});
       });
       res.send(list);
+      mongoose.connection.close();
     });
-  } else res.send('bad or expired api key');
+  } else {
+    res.send('bad or expired api key');
+    mongoose.connection.close();
+  }
 }
 
 module.exports = { retrieveMembers };
