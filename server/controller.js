@@ -2,12 +2,19 @@ const database = require('../config.js').database;
 const mongoose = require('mongoose');
 const options = { useNewUrlParser: true, useCreateIndex: true };
 
-//External functions:
+//External function importing:
 const retrieveMembers = require('./controllers/retrievemembers.js').retrieveMembers;
 const processReport = require('./controllers/retrieversvp.js').processReport;
 const validateToken = require('./controllers/rsvp.js').validateToken;
 const login = require('./controllers/authorization.js').login;
-const master = require('./controllers/master.js');
+const addMember = require('./controllers/master.js').addMember;
+const resetEmail = require('./controllers/master.js').resetEmail;
+const deleteMember = require('./controllers/master.js').deleteMember;
+const emailOne = require('./controllers/emailer.js').emailOne;
+const emailAll = require('./controllers/emailer.js').emailAll;
+
+
+const emailer = require('./controllers/emailer.js'); //contains multiple functions
 
 const handleError = (err, res) => {
   console.log('Error connecting to database');
@@ -20,7 +27,7 @@ const handleError = (err, res) => {
 module.exports = {
     RSVP: (req, res) => {
       mongoose.connect(database, options)
-      .then(() => validateToken(req.body, res))
+      .then(() => validateToken(req, res))
       .catch((err) => handleError(err, res));
     },
     allResponses: (req, res) => {
@@ -35,22 +42,32 @@ module.exports = {
     },
     login: (req, res) => {
       mongoose.connect(database, options)
-      .then(() => login(req.body.credential, res))
+      .then(() => login(req, res))
       .catch(err => handleError(err, res));
     },
     resetEmail: (req, res) => {
       mongoose.connect(database, options)
-      .then(() => master.resetEmail(req, res))
+      .then(() => resetEmail(req, res))
       .catch(err => handleError(err, res));
     },
     addMember: (req, res) => {
       mongoose.connect(database, options)
-      .then(() => master.addMember(req, res))
+      .then(() => addMember(req, res))
       .catch(err => handleError(err, res));
     },
     deleteMember: (req, res) => {
       mongoose.connect(database, options)
-      .then(() => master.deleteMember(req, res))
+      .then(() => deleteMember(req, res))
+      .catch(err => handleError(err, res));
+    },
+    emailOne: (req, res) => {
+      mongoose.connect(database, options)
+      .then(() => emailOne(req, res))
+      .catch(err => handleError(err, res));
+    },
+    emailAll: (req, res) => {
+      mongoose.connect(database, options)
+      .then(() => emailAll(req, res))
       .catch(err => handleError(err, res));
     }
 }
