@@ -8,14 +8,14 @@ const config = require('../../config.js');
 
 const resetEmail = (req, res) => {
   if (checkCurrentAuthKey(req.params.auth)) {
-    Master.findOneAndUpdate({email: req.body.email.toLowerCase()}, {tokenSent: false}, {upsert: false}, (err, doc)  => {
+    Master.findOneAndUpdate({email: req.params.email}, {tokenSent: false}, {upsert: false}, (err, doc)  => {
       if (err) {
         res.sendStatus(500);
         console.error(`Error reseting email: ${err}`);
       } else if (doc) {
         res.sendStatus(200);
       } else {
-        console.error(`Attempted reset to of a non-existant email: ${req.body.email.toLowerCase()}`);
+        console.error(`Attempted reset to of a non-existant email: ${JSON.stringify(req.params.email.toLowerCase())}`);
         res.sendStatus(500);
       }
       mongoose.connection.close();
