@@ -14,10 +14,12 @@ const Form = (props) => {
     8 pm - 6 am
     <br></br>
     <br></br>
-    This is a private event  You must be on the list to register.
+    Please use the token provided via email to register.
     <br></br>
     <br></br>
-    Club Wawona will be providing all supplies.  We ask for a $10/person donation to help us fund the drinks and snacks.  If you enjoy Club Wawona, please contribute to keep these events financially maintainable!
+    <b>We are asking for a $5-10 per person donation to help us fund the drinks / snacks / cake / etc.</b> Club Wawona will be providing all supplies - please do not bring anything!  We will be using the responses below to stock the party, democratically.
+    <br></br>
+    <br></br>
     <br></br>
     <br></br>
     <form className='form' onSubmit={props.submit}>
@@ -38,7 +40,7 @@ const Form = (props) => {
         required></input>
       </label>
       <br></br>
-      <label htmlFor='email'>Email:
+      <label htmlFor='email'>Email (must match the email you received the token):
         <input
         style={styles.input}
         type='email'
@@ -66,7 +68,7 @@ const Form = (props) => {
         </select>
       </label>
       <p>Please fill out this brief survey to help us procure supplies:</p>
-      <label> Please choose your favorite 'party' beer:
+      <label> Please choose your favorite beer (for parties):
         <select name='beer' style={styles.selector}>
           <option value='None'>I do not drink beer</option>
           <option value='Hops'>IPAs</option>
@@ -92,9 +94,9 @@ const Form = (props) => {
         <select name='wine' style={styles.selector}>
           <option value='None'>I do not drink wine</option>
           <option value='Cab'>Cabernet Sauvingon</option>
-          <option value="Syrah">Syrah/Grenach</option>
+          <option value="Syrah">Syrah</option>
           <option value='Pinot'>Pinot Noir</option>
-          <option value='White'>The non-red type of wine</option>
+          <option value='White'>Non-red wine</option>
         </select>
       </label>
       <br></br>
