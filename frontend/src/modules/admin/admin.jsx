@@ -72,19 +72,15 @@ class Admin extends React.Component {
   getMembers() {
     Axios.get(`api/members/retrieve/${this.state.APIKey}`)
     .then(res => {
-      this.setState({
-        list: res.data
-      }, () => {
-        this.checkIfRSVPed();
-      });
+      this.checkIfRSVPed(res.data);
     })
     .catch(err => {
       console.error(err);
     });
   }
 
-  checkIfRSVPed() {
-    let list = this.state.list.slice();
+  checkIfRSVPed(memberList) {
+    let list = memberList.slice();
     let registeredCount = 0;
     list.forEach(member => {
       member['registered'] = false;
@@ -181,14 +177,16 @@ class Admin extends React.Component {
 
   emailAll() {
     //send a request to the server which will pull the official list and process it for emailing
-    Axios.patch(`/api/email/all/${this.state.APIKey}`)
-    .then(res =>  {
-      console.log(res.status);
-      this.getReport();
-    })
-    .catch(err => {
-      console.error(`There was an error attemping to send all of the emails: ${err}`);
-    });
+    // Axios.patch(`/api/email/all/${this.state.APIKey}`)
+    // .then(res =>  {
+    //   //TODO: handle different responses
+    //   console.log(res.status);
+    //   this.getReport();
+    // })
+    // .catch(err => {
+    //   console.error(`There was an error attemping to send all of the emails: ${err}`);
+    // });
+    console.log('This feature is not available yet.');
   }
 
 //******************** VIEWER ********************/
