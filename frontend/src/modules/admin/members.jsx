@@ -19,12 +19,18 @@ const Members = (props) => {
   return (
     <div className='memberslist'>
       Size of list: {`${props.list.length}`}
+      <br></br>
+      <br></br>
+      <button onClick={props.emailAll}>Email all unsent guests</button>
+      <br></br>
+      <br></br>
       <table style={style}>
         <thead>
           <tr>
             <td style={cell}>Name</td>
             <td style={cell}>Email</td>
             <td style={cell}>Token Sent?</td>
+            <td style={cell}>User Registered?</td>
             <td style={cell}>Send Token</td>
             <td style={cell}>Reset State</td>
             <td style={cell}>Remove Email</td>
