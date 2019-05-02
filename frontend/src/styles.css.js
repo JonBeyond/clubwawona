@@ -62,6 +62,7 @@ export default {
     border: '3px solid white',
     width: '450px',
     margin: 'auto',
+    padding: '10px',
     height: 'auto',
     verticalAlign: 'middle'
   },
