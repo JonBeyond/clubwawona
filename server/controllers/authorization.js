@@ -2,7 +2,15 @@ const bcrypt = require('bcrypt');
 const Credentials = require('../model.js').Credentials;
 var authKey = null;
 
-const login = (providedPassword, res) => {
+const checkCurrentAuthKey = (input) => {
+  let key = Number(input);
+  console.log(`comparing providied: ${key} with official: ${authKey} (Result: ${key === authKey})`);
+  if (key === null) return false;
+  else return key === authKey;
+}
+
+const login = (req, res) => {
+  let providedPassword = req.body.credential;
   Credentials.findOne({type: 'admin'})
   .then(credential => {
     bcrypt.compare(providedPassword,  credential.token)
@@ -40,13 +48,6 @@ const generateTemporaryKey = () => {
     console.log(`Authkey should be null: ${authKey}`);
   }, 600000);
   return authKey;
-}
-
-const checkCurrentAuthKey = (input) => {
-  let key = Number(input);
-  console.log(`comparing providied: ${key} with official: ${authKey} (Result: ${key === authKey})`);
-  if (key === null) return false;
-  else return key === authKey;
 }
 
 module.exports = { login, checkCurrentAuthKey };
