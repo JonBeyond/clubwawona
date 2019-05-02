@@ -9,6 +9,7 @@ const AdminPanel = (props) => {
       return (<Members
                 list={props.list}
                 sendEmail={props.sendEmail}
+                emailAll={props.emailAll}
                 resetEmail={props.resetEmail}
                 removeEmail={props.removeEmail} />);
   } else if (props.page === 'AddMember') {
