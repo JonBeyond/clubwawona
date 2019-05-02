@@ -9,10 +9,11 @@ const emailOne = (req, res) => {
   .then(() => {
     emailer(req.body.member)
     .then(info => {
-      console.log(info);
+      console.log(`Email sent suuccessfully to ${member.email}`);
       res.sendStatus(200);
     })
     .catch(err => {
+      console.log(`Email failed  to ${member.email}`);
       console.log(err);
       res.sendStatus(500);
     });
@@ -95,6 +96,7 @@ const emailText = (name, token) => {
   3. Please let the hosts know if you are doing a non-alcohol thing.  Do your thing, just let us know so we can keep everyone safe.
 
   -- GETTING HERE --
+  Club Wawona is located in San Francisco, CA.  The address will be emailed out prior to the event to all registrants!
   1. There is plenty of street parking on Wawona
   2. There are L-muni stops at 32nd and 30th street, which are 6-8 minutes away.
 

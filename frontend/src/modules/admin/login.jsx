@@ -2,7 +2,7 @@ const Login = (props) => {
   return (<div>
     Login:
     <br></br>
-    <input type='password' id='endpoint' ></input>
+    <input type='text' id='endpoint' ></input>
     <br></br>
     <br></br>
     Password:

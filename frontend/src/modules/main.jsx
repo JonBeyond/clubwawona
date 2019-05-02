@@ -53,7 +53,7 @@ class Main extends React.Component {
       } else if (res.status === 500) {
         alert('Unable to save RSVP due to a server error.  Please email clubwawona@gmail.com');
       } else {
-        alert('Something went wrong on the server :( Please email clubwawona@gmail.com');
+        alert('Something went wrong on the server :( Please try again and email clubwawona@gmail.com if the issue occurs again');
       }
     })
     .catch((err) => {

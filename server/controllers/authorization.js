@@ -46,7 +46,7 @@ const generateTemporaryKey = () => {
     console.log(`Authkey timeout: ${authKey}`);
     authKey = null;
     console.log(`Authkey should be null: ${authKey}`);
-  }, 600000);
+  }, 3600000);
   return authKey;
 }
 
