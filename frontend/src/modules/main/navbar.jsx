@@ -28,7 +28,7 @@ const Navbar = (props) => {
           style={('Admin' === props.current) ? styles.navBarSelected : styles.navBarElement}
           className='Admin'
           onClick={props.navigate}>
-          Admin</li>
+          Login</li>
       </ul>
       <div style={styles.navDivider}>
       <img src='https://s3-us-west-1.amazonaws.com/clubwawona/navbar.png'></img>
