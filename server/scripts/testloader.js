@@ -5,8 +5,8 @@
 
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
-const Schema = require('../server/model.js');//can use: Master, RSVP, Credentials
-const config = require('../config.js');
+const Schema = require('../model.js');//can use: Master, RSVP, Credentials
+const config = require('../../config.js');
 const saltRounds = 12; //13 for production
 const uuidv5 = require('uuid/v5'); //for user tokens
 
@@ -119,18 +119,18 @@ const deleteExistingCollections = () => {
     console.log('RSVPs deleted.');
     Schema.Master.deleteMany({}).then(() => {
       console.log('Master list deleted.');
-      Schema.Credentials.deleteMany({}).then(() => {
-        console.log('Credentials deleted.');
-        createMasterList();
-      })
+      //Schema.Credentials.deleteMany({}).then(() => {
+        //console.log('Credentials deleted.');
+        //createMasterList();
+      //})
     })
   })
   .catch(err => handleError(err, 'Error dropping databases'));
 }
 
 //****** START THE LOADER ******//
-(function () {
-  mongoose.connect(config.database, { useNewUrlParser: true, useCreateIndex: true })
-  .then(() => deleteExistingCollections())
-  .catch((err) => handleError(err, 'Error connecting to the database'));
-})()
+// (function () {
+//   mongoose.connect(config.database, { useNewUrlParser: true, useCreateIndex: true })
+//   .then(() => deleteExistingCollections())
+//   .catch((err) => handleError(err, 'Error connecting to the database'));
+// })()
