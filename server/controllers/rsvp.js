@@ -3,9 +3,13 @@ const RSVP = require('../model.js').RSVP;
 const Master = require('../model.js').Master;
 const mongoose = require('mongoose');
 
-const validateToken = (document, res) => {
+const validateToken = (req, res) => {
+  let document = req.body;
   Master.findOne({email: document.email.toLowerCase()}, (err, response) => {
-    if (response && response.token === document.token) {
+    if(err) {
+      console.log(`Error finding email ${document.email}`);
+      res.sendStatus(500);
+    } else if (response && response.token === document.token) {
       console.log(`Successful registration processed for ${document.email}`);
       saveRSVP(document, res);
     } else if (response === null) {
@@ -14,7 +18,7 @@ const validateToken = (document, res) => {
       mongoose.connection.close();
     } else {
       console.log(`Failed registration - bad key for ${document.email}`);
-      res.send('badkey'); //TODO: this is BAD! Need to trace to main component and fix on both ends.  This hsould be a standard HTTP code
+      res.send('badkey'); //Note, this is a custom response, not a standard HTTP code.
       mongoose.connection.close();
     }
   });
