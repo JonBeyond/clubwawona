@@ -20,6 +20,7 @@ class Admin extends React.Component {
     this.resetEmail = this.resetEmail.bind(this);
     this.removeEmail = this.removeEmail.bind(this);
     this.addMember = this.addMember.bind(this);
+    this.emailAll = this.emailAll.bind(this);
   }
 
   navigate(event) {
@@ -35,7 +36,7 @@ class Admin extends React.Component {
   adminLogin() {
     let credential = document.getElementById('credentials').value;
     let endpoint = document.getElementById('endpoint').value;
-    Axios.post(`/api/authenticate/${endpoint}`, {credential: credential})
+    Axios.post(`/api/login/${endpoint}`, {credential: credential})
     .then(res => {
       if (res.data.status === 'PASSED') {
         this.setState({
@@ -69,7 +70,7 @@ class Admin extends React.Component {
   }
 
   getMembers() {
-    Axios.get(`api/members/${this.state.APIKey}`)
+    Axios.get(`api/members/retrieve/${this.state.APIKey}`)
     .then(res => {
       this.setState({
         list: res.data
@@ -83,21 +84,21 @@ class Admin extends React.Component {
   }
 
   checkIfRSVPed() {
-    let list = this.state.list.slice(); //copy for processing
+    let list = this.state.list.slice();
+    let registeredCount = 0;
     list.forEach(member => {
       member['registered'] = false;
       this.state.report['emails'].forEach(email => {
         if (member['email'] === email) {
           member['registered'] = true;
+          registeredCount++;
         }
       });
     });
-    // TODO: perform a re-render using setState.  Come back to this later; not important now.
     this.setState({
       list: list
     }, () => {
-      // console.log(list);
-      //this is for the post-MVP of showing state
+      console.log(`Found ${registeredCount} RSVPs out of ${list.length} members`);
     });
   }
 
@@ -110,10 +111,10 @@ class Admin extends React.Component {
       lastName: form.target.lastName.value,
       email: form.target.email.value
     };
-    Axios.post(`/api/master/${this.state.APIKey}`, newMember)
+    Axios.post(`/api/members/new/${this.state.APIKey}`, newMember)
     .then(res => {
       if (res.status === 200) {
-        console.log('refresh data');
+        console.log('Email added successfully! Refreshing data...');
         this.getReport();
       } else console.error(`Error when attempting to add a new member: ${res.status}`);
     })
@@ -121,14 +122,14 @@ class Admin extends React.Component {
   }
 
   resetEmail(event) {
-    let doc = {email: event.target.id.toLowerCase()};
-    Axios.patch(`/api/master/${this.state.APIKey}/reset`, doc)
+    let email = event.target.id.toLowerCase();
+    Axios.patch(`/api/members/reset/${email}/${this.state.APIKey}/`)
     .then(res => {
       if (res.status === 200) {
         console.log(`Email reset`);
         this.getReport();
       } else if (res.status === 500) {
-        console.error(`Internal server error updating email ${doc}`);
+        console.error(`Internal server error updating email ${email}`);
       } else if (res.status === 401) {
         console.error(`The API Code has expired.  Please login.`);
       } else console.error(`Unhandled error resetting email: ${res.status}`);
@@ -140,8 +141,8 @@ class Admin extends React.Component {
 
   removeEmail(event) {
     let email = event.target.id.toLowerCase();
-    if(confirm(`Please confirm removal of ${email}.  This operation is not reversable and all RSVPs will remain in the database`)) {
-      Axios.delete(`/api/master/${this.state.APIKey}/${email}`)
+    if(confirm(`Please confirm removal of ${email}.  This operation is not reversable and existing RSVPs will remain in the database!`)) {
+      Axios.delete(`/api/members/${email}/${this.state.APIKey}`)
       .then((res)=> {
         if (res.status === 200) {
           console.log(`${email} removed`);
@@ -158,22 +159,36 @@ class Admin extends React.Component {
   }
 
   sendEmail(event) { //TODO:
-    //Process: verify if email was sent
-    // -> if yes, then don't sent (it must be reset to make sure emails don't get sent more than once);
-    //
-    //this needs to send an API request with the data.
-    //since the client has the data, should we just send it?
     let email = event.target.id;
+    //find and verify this member has not been emailed:
+    for (let i = 0; i < this.state.list.length; i++) {
+      let member = this.state.list[i];
+      if (!member.tokenSent && member.email === email) {
+        console.log(`Requesting to email token associated with ${member.email}`);
+        Axios.patch(`/api/email/:email/${this.state.APIKey}`, {member: member})
+        .then(res => {
+          console.log(res.status);
+          this.getReport();  //update list client side.
+        })
+        .catch(err => console.error(`Error sending token to ${email} : ${err}`));
+        break; //to be extra safe, we should break from the loop.
+      } else if (member.tokenSent && member.email === email) {
+        console.error(`The token associated with this email has been sent.  Please reset the state if you wish to send it again.`);
+      }
+      if (i === this.state.list.length) console.error('ERROR: the email was not found in the list'); //this shouuld never be possible.
+    }
+  }
 
-    console.log('this feature is not yet available');
-
-    //process:
-    //1) create a new API endpoint for sending and resetting email state TODO:
-    //2) send the email over API
-    //3) the server will interact with OAUTH/etc.
-    //4) there needs to be new router and controller code on the server side
-    // For now, this section just needs to make an API call and handle errors.
-
+  emailAll() {
+    //send a request to the server which will pull the official list and process it for emailing
+    Axios.patch(`/api/email/all/${this.state.APIKey}`)
+    .then(res =>  {
+      console.log(res.status);
+      this.getReport();
+    })
+    .catch(err => {
+      console.error(`There was an error attemping to send all of the emails: ${err}`);
+    });
   }
 
 //******************** VIEWER ********************/
@@ -196,6 +211,7 @@ class Admin extends React.Component {
           list={this.state.list}
           addMember={this.addMember}
           sendEmail={this.sendEmail}
+          emailAll={this.emailAll}
           resetEmail={this.resetEmail}
           removeEmail={this.removeEmail} />
         </div>
