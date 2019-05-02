@@ -47,18 +47,19 @@ const changeTokenState = (member) => {
   });
 }
 
-const verifyTokenState = (member) => {
-  return new Promise((resolve, reject) => {
-    Master.findOne({email: member.email}, (err, doc) => {
-      if (err) {
-        //TODO: error
-        reject(err);
-      }
-      console.log(doc);
-      resolve(true)
-    });
-  });
-}
+//TODO: the below function will be required for email all.
+// const verifyTokenState = (member) => {
+//   return new Promise((resolve, reject) => {
+//     Master.findOne({email: member.email}, (err, doc) => {
+//       if (err) {
+//         //TODO: error
+//         reject(err);
+//       }
+//       console.log(doc);
+//       resolve(true)
+//     });
+//   });
+// }
 
 const emailText = (name, token) => {
   return `
