@@ -16,18 +16,23 @@ server.use('/',express.static(path.join(__dirname, '../frontend/dist')));
 server.post('/api/RSVP', (req, res) => controller.RSVP(req, res));
 
 //Admin Login:
-server.post(`/api/authenticate/${endpoint}`, (req, res) => controller.login(req, res)); //TODO: this endpoint may not be following the RESTful standards
+server.post(`/api/login/${endpoint}`, (req, res) => controller.login(req, res)); //TODO: this endpoint may not be following the RESTful standards
 
 //Admin Metrics:
-server.get('/api/members/:auth', (req, res) => controller.allMembers(req, res)); //TODO: this endpoint may not be following the RESTful standards
 server.get('/api/report/:auth', (req, res) => controller.allResponses(req, res));
 
 //Admin Management:
-server.post('/api/master/:auth', (req, res) => controller.addMember(req, res));
-server.patch('/api/master/:auth/reset', (req, res) => controller.resetEmail(req, res));
-server.delete('/api/master/:auth/:email', (req, res) => controller.deleteMember(req, res));
 
-//TODO: endpoints for sending emails
+//TODO: FRONTEND REWORK BELOW
+//TODO: CONTROLLER REWORK BELOW
+server.get('/api/members/retrieve/:auth', (req, res) => controller.allMembers(req, res));
+server.post('/api/members/new/:auth', (req, res) => controller.addMember(req, res));
+server.patch('/api/members/reset/:email/:auth', (req, res) => controller.resetEmail(req, res));
+server.delete('/api/members/:email/:auth', (req, res) => controller.deleteMember(req, res));
+
+//Email System Management
+server.patch('/api/email/:email/:auth', (req, res) => controller.emailOne(req, res));
+server.patch('/api/email/all/:auth', (req, res) => controller.emailAll(req, res));
 
 server.listen(port, () => console.log(`Server is listening on ${port}`))
 
