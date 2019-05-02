@@ -26,8 +26,11 @@ const emailOne = (req, res) => {
 }
 
 const emailAll = (req, res) => {
+  //this function simply gets a request and must pull the data and send all emails.
+  //requires a query of the server (note: functions already exist!)
   console.log('helo from email all');
-  res.sendStatus(200);
+  res.sendStatus(500);
+  //TODO: this feature is not necessary for MVP.  Let's finish it later.
 }
 
 const changeTokenState = (member) => {
@@ -35,38 +38,46 @@ const changeTokenState = (member) => {
     Master.updateOne({email: member.email}, {tokenSent: true}, (err) => {
       if(err) {
         res.sendStatus(500);
-        console.log(`WARNING: COULD NOT RESET EMAIL`);
+        console.log(`WARNING: COULD NOT RESET EMAIL ${member.email}`);
         reject(err);
       }
-      console.log('Token state changed');
+      console.log(`Token state changed to true for ${member.email}`);
       resolve(true);
-    })
+    });
   });
 }
 
 const verifyTokenState = (member) => {
   return new Promise((resolve, reject) => {
-    Master.findOne({email: member.email}, (err, response) => {
-      if
-    })
-  })
+    Master.findOne({email: member.email}, (err, doc) => {
+      if (err) {
+        //TODO: error
+        reject(err);
+      }
+      console.log(doc);
+      resolve(true)
+    });
+  });
 }
 
 const emailText = (name, token) => {
   return `
   Dear ${name},
-  You are cordially invited attend Club Wawona May 2019.
-  Please register for the event at https://wawona.club with your unique registration token: ${token}
-  Registering for the event helps us to reduce waste and properly supply the party!  If you are a 'maybe', please register anyways.
 
-  Please read the following information.  You never know what mysteries it contains!!!
+  Welcome to the new Club Wawona list!
+
+  You are cordially invited attend Club Wawona on May 25th, 2019, from 9pm 'till 6am.
+  Please register for the event at https://wawona.club with your unique registration token: ${token}
+  **Registering for the event helps us to reduce waste and properly supply the party!  Please do not respond if you cannot make it!**
+
+  Please read the following information.  You never know what mysteries it may contain!
 
   -- THE PLAN --
   This is both Jonathan and Lara's (2nd) sweet 16 birthday celebration.  We'll let you do the math on that.
   The party is intended to go until sunrise or an extintion event occurs. The official hours are somewhere around 9pm - 6am.  We recommended you show up between 9-10pm :)
 
   -- THE MUSIC --
-  There will be good music.  The lineup will be announced closer to the date.
+  There will be good music.  The lineup will be announced closer to the date.  If you're interested in playing, just let us know!
 
   -- DISCLAIMER --
   This is party is 21+.  Any guests you bring are your responsibility.  Please be kind and courteous to everyone (follow the DBAD philosophy).
@@ -90,7 +101,9 @@ const emailText = (name, token) => {
   If you crash at the venue, we will be going to get breakfast burritos at Underdogs Too.  They are cheap and amazing.  Please join us!
 
   We look forward to seeing your lovely faces soon,
-  Jonathan & Lara`;
+  Jonathan & Lara
+  
+  PS: If you wish to be removed from this list, please respond as such and I will remove you.`;
 }
 
 const emailer = (member) => {
