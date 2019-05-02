@@ -22,9 +22,6 @@ server.post(`/api/login/${endpoint}`, (req, res) => controller.login(req, res));
 server.get('/api/report/:auth', (req, res) => controller.allResponses(req, res));
 
 //Admin Management:
-
-//TODO: FRONTEND REWORK BELOW
-//TODO: CONTROLLER REWORK BELOW
 server.get('/api/members/retrieve/:auth', (req, res) => controller.allMembers(req, res));
 server.post('/api/members/new/:auth', (req, res) => controller.addMember(req, res));
 server.patch('/api/members/reset/:email/:auth', (req, res) => controller.resetEmail(req, res));
